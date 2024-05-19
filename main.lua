@@ -168,15 +168,17 @@ end
 function love.mousepressed(x, y, button, istouch, presses)
     if button == 1 then
         -- Executar a animação de ataque
-        personagem.atacando = true
+        if not personagem.pulando then 
+            personagem.atacando = true
 
-        if personagem.lookingRight then
-            personagem.images = personagem.attackImagesRight
-        else
-            personagem.images = personagem.attackImagesLeft
+            if personagem.lookingRight then
+                personagem.images = personagem.attackImagesRight
+            else
+                personagem.images = personagem.attackImagesLeft
+            end
+            personagem.quadroAtual = 1
+            personagem.tempoDeAtaque = 0 -- Reinicializar o tempo de ataque
         end
-        personagem.quadroAtual = 1
-        personagem.tempoDeAtaque = 0 -- Reinicializar o tempo de ataque
     end
 end
 
