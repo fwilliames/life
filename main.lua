@@ -41,16 +41,22 @@ function love.load()
 
         },
         attackImagesRight = {
-            love.graphics.newImage("/assets/character_sword_Attack_0.png"),
-            love.graphics.newImage("/assets/character_sword_Attack_1.png"),
-            love.graphics.newImage("/assets/character_sword_Attack_2.png"),
-            love.graphics.newImage("/assets/character_sword_Attack_3.png"),
-        },   
+            love.graphics.newImage("/assets/character_sword_Attack_0_r.png"),
+            love.graphics.newImage("/assets/character_sword_Attack_1_r.png"),
+            love.graphics.newImage("/assets/character_sword_Attack_2_r.png"),
+            love.graphics.newImage("/assets/character_sword_Attack_3_r.png"),
+        },
+        attackImagesLeft = {
+            love.graphics.newImage("/assets/character_sword_Attack_0_l.png"),
+            love.graphics.newImage("/assets/character_sword_Attack_1_l.png"),
+            love.graphics.newImage("/assets/character_sword_Attack_2_l.png"),
+            love.graphics.newImage("/assets/character_sword_Attack_3_l.png"),
+        },
         images = {},
         x = 100,
         y = 500,
         vy = 0,
-        pulando = false,
+        pulando = false, 
         atacando = false,
         lookingRight = true,
         velocidade = 200,
@@ -61,7 +67,7 @@ function love.load()
     }
 
     -- Definir imagens iniciais
-    personagem.images = personagem.idleImages
+    personagem.images = personagem.idleImagesRight
 end
 
 function love.update(dt)
@@ -85,7 +91,6 @@ function love.update(dt)
             personagem.y = 500
             personagem.vy = 0
             personagem.pulando = false
-            personagem.images = personagem.idleImagesRight
         end
     end
 
@@ -102,31 +107,32 @@ function love.update(dt)
         personagem.x = personagem.x - personagem.velocidade * dt
        if not personagem.pulando then personagem.images = personagem.runImagesLeft end
 
+
     elseif love.keyboard.isDown("d") then
         personagem.lookingRight = true
         personagem.x = personagem.x + personagem.velocidade * dt
         if not personagem.pulando then personagem.images = personagem.runImagesRight end
 
+
     else
         if personagem.lookingRight then 
-            if not personagem.atacando then
+            if not personagem.atacando and not personagem.pulando then
                 personagem.images = personagem.idleImagesRight
             end
         else
-            if not personagem.atacando then
+            if not personagem.atacando and not personagem.pulando then
                 personagem.images = personagem.idleImagesLeft
             end
         end
     end
 
     if personagem.atacando then
-       
         -- Atualizar o temporizador de animação de ataque
         personagem.tempoDeAtaque = personagem.tempoDeAtaque + dt
 
-        if personagem.tempoDeAtaque >= 1 * personagem.intervaloDeQuadro then
+        if personagem.tempoDeAtaque >= 10 * personagem.intervaloDeQuadro then
             -- Ajustar o tempo de ataque para evitar que exceda o limite de 10 frames por imagem
-            personagem.tempoDeAtaque = personagem.tempoDeAtaque - 1 * personagem.intervaloDeQuadro
+            personagem.tempoDeAtaque = personagem.tempoDeAtaque - 10 * personagem.intervaloDeQuadro
             
             -- Trocar para a próxima imagem de ataque
             personagem.quadroAtual = personagem.quadroAtual % #personagem.images + 1
@@ -134,7 +140,11 @@ function love.update(dt)
         end
         if personagem.quadroAtual == 4 then
             personagem.atacando = false
-            personagem.images = personagem.idleImagesRight -- Voltar para as imagens de idle após o ataque
+            if personagem.lookingRight then
+                personagem.images = personagem.idleImagesRight -- Voltar para as imagens de idle após o ataque
+            else
+                personagem.images = personagem.idleImagesLeft -- Voltar para as imagens de idle após o ataque
+            end
         end
     end
 
@@ -154,15 +164,21 @@ function love.keypressed(key)
         end
     end
 end
-    function love.mousepressed(x, y, button, istouch, presses)
-        if button == 1 then
-            -- Executar a animação de ataque
-            personagem.atacando = true
+
+function love.mousepressed(x, y, button, istouch, presses)
+    if button == 1 then
+        -- Executar a animação de ataque
+        personagem.atacando = true
+
+        if personagem.lookingRight then
             personagem.images = personagem.attackImagesRight
-            personagem.quadroAtual = 1
-            personagem.tempoDeAtaque = 0 -- Reinicializar o tempo de ataque
+        else
+            personagem.images = personagem.attackImagesLeft
         end
+        personagem.quadroAtual = 1
+        personagem.tempoDeAtaque = 0 -- Reinicializar o tempo de ataque
     end
+end
 
 function love.draw()
     -- Desenhar o mapa
