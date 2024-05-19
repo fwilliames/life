@@ -6,57 +6,57 @@ local Player = class("player")
 function Player:initialize()
     --Imagens de estado ocioso quando o player estiver olhando para direita
     self.idleImagesRight = {
-        love.graphics.newImage("/assets/character_idle_0_r.png"),
-        love.graphics.newImage("/assets/character_idle_1_r.png"),
-        love.graphics.newImage("/assets/character_idle_2_r.png"),
-        love.graphics.newImage("/assets/character_idle_3_r.png")
+        love.graphics.newImage("/assets/character/character_idle_0_r.png"),
+        love.graphics.newImage("/assets/character/character_idle_1_r.png"),
+        love.graphics.newImage("/assets/character/character_idle_2_r.png"),
+        love.graphics.newImage("/assets/character/character_idle_3_r.png")
     }
     --Imagens de estado ocioso quando o player estiver olhando para esquerda
     self.idleImagesLeft = {
-        love.graphics.newImage("/assets/character_idle_0_l.png"),
-        love.graphics.newImage("/assets/character_idle_1_l.png"),
-        love.graphics.newImage("/assets/character_idle_2_l.png"),
-        love.graphics.newImage("/assets/character_idle_3_l.png")
+        love.graphics.newImage("/assets/character/character_idle_0_l.png"),
+        love.graphics.newImage("/assets/character/character_idle_1_l.png"),
+        love.graphics.newImage("/assets/character/character_idle_2_l.png"),
+        love.graphics.newImage("/assets/character/character_idle_3_l.png")
     }
     --Imagens de salto quando o player estiver olhando para direita
     self.jumpImagesRight = {
-        love.graphics.newImage("/assets/character_jump_0_r.png"),
-        love.graphics.newImage("/assets/character_jump_1_r.png")
+        love.graphics.newImage("/assets/character/character_jump_0_r.png"),
+        love.graphics.newImage("/assets/character/character_jump_1_r.png")
     }
     --Imagens de salto quando o player estiver olhando para esquerda
     self.jumpImagesLeft = {
-        love.graphics.newImage("/assets/character_jump_0_l.png"),
-        love.graphics.newImage("/assets/character_jump_1_l.png")
+        love.graphics.newImage("/assets/character/character_jump_0_l.png"),
+        love.graphics.newImage("/assets/character/character_jump_1_l.png")
     }
     --Imagens de caminhada quando o player estiver olhando para direita
     self.runImagesRight = {
-        love.graphics.newImage("/assets/character_run_0_r.png"),
-        love.graphics.newImage("/assets/character_run_1_r.png"),
-        love.graphics.newImage("/assets/character_run_2_r.png"),
-        love.graphics.newImage("/assets/character_run_3_r.png")
+        love.graphics.newImage("/assets/character/character_run_0_r.png"),
+        love.graphics.newImage("/assets/character/character_run_1_r.png"),
+        love.graphics.newImage("/assets/character/character_run_2_r.png"),
+        love.graphics.newImage("/assets/character/character_run_3_r.png")
 
     }
     --Imagens de caminhada quando o player estiver olhando para esquerda
     self.runImagesLeft = {
-        love.graphics.newImage("/assets/character_run_0_l.png"),
-        love.graphics.newImage("/assets/character_run_1_l.png"),
-        love.graphics.newImage("/assets/character_run_2_l.png"),
-        love.graphics.newImage("/assets/character_run_3_l.png")
+        love.graphics.newImage("/assets/character/character_run_0_l.png"),
+        love.graphics.newImage("/assets/character/character_run_1_l.png"),
+        love.graphics.newImage("/assets/character/character_run_2_l.png"),
+        love.graphics.newImage("/assets/character/character_run_3_l.png")
 
     }
     --Imagens de ataque quando o player estiver olhando para direita
     self.attackImagesRight = {
-        love.graphics.newImage("/assets/character_sword_Attack_0_r.png"),
-        love.graphics.newImage("/assets/character_sword_Attack_1_r.png"),
-        love.graphics.newImage("/assets/character_sword_Attack_2_r.png"),
-        love.graphics.newImage("/assets/character_sword_Attack_3_r.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_0_r.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_1_r.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_2_r.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_3_r.png"),
     }
     --Imagens de ataque quando o player estiver olhando para esquerda
     self.attackImagesLeft = {
-        love.graphics.newImage("/assets/character_sword_Attack_0_l.png"),
-        love.graphics.newImage("/assets/character_sword_Attack_1_l.png"),
-        love.graphics.newImage("/assets/character_sword_Attack_2_l.png"),
-        love.graphics.newImage("/assets/character_sword_Attack_3_l.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_0_l.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_1_l.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_2_l.png"),
+        love.graphics.newImage("/assets/character/character_sword_Attack_3_l.png"),
     }
 
     self.images = self.idleImagesRight --conjunto de imagens usadas atualmente

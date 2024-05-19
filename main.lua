@@ -1,6 +1,6 @@
 function love.load()
     -- Carregar o mapa
-    mapa = love.graphics.newImage("/assets/Desert Night_bg.png")
+    mapa = love.graphics.newImage("/assets/background/Desert Night_bg.png")
     
     love.window.setMode(mapa:getWidth(), mapa:getHeight())
 
