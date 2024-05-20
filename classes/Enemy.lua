@@ -23,6 +23,7 @@ function Enemy:initialize(typeEnemy)
         i = i + 1
     end
 
+    --Carregar imagens da explosao
     i = 1
     j = 32
     while i< j do
@@ -34,6 +35,7 @@ function Enemy:initialize(typeEnemy)
         i = i + 1
     end
 
+    --Define o set atual de imagens
     self.images = self.liveImages
 
     self.x = 0
@@ -41,16 +43,18 @@ function Enemy:initialize(typeEnemy)
     self.speed = 100
     self.speedIncrement = 10
     
+    --Atributos de animação
     self.currentFrame = 1
     self.timeSinceTheLastChange = 0
     self.frameInterval = 0.1 -- tempo em segundos para trocar de quadro
+    self.rotation = 0
     
     --Hitbox
     self.hitBoxY = 0
     self.hitBoxX = 0
     self.radio = 0
-    self.rotation = 0
     
+    --Definicao de atributos de acordo com tipo de inimigo criado
     self.case = {
         ["01"] = function()
             if self.y == 0 or self.x == 0 then
@@ -139,6 +143,7 @@ function Enemy:initialize(typeEnemy)
         print("No enemies was chosen")
     end
 
+    --Atributos de Explosao
     self.explosionTime = 0
     self.isExploding = false
 
@@ -153,15 +158,17 @@ function Enemy:draw()
     else 
         print("No enemies was chosen")
     end
+
+    --Desenha do hitbox
     --love.graphics.circle("fill", self.hitBoxX, self.hitBoxY, self.radio)
 
-    -- Desenhar o quadro atual do personagem
+    -- Desenhar o quadro atual
     if self.enemyName == "06" or self.enemyName == "02" or self.enemyName == "03" then
         love.graphics.draw(imagem, self.x, self.y, self.rotation, -1, -1)
     else
         love.graphics.draw(imagem, self.x, self.y, self.rotation)
     end
-    --love.graphics.circle("fill", 0, 0, self.radio)
+
 end
 
 function Enemy:update(dt)
@@ -184,7 +191,7 @@ function Enemy:update(dt)
         if not self.isExploding then self.x = self.x - self.speed * dt end
     end
 
-    --Troca de imagens para explosaodddddd
+    --Troca de imagens para explosao
     if self.isExploding then
         if self.explosionTime >= 30 * 0.1 then
             self.explosionTime = self.explosionTime - 5 * 0.1
@@ -217,7 +224,7 @@ function Enemy:update(dt)
 end
 
 function Enemy:checkCollision(obj,dt)
-    print("check collision")
+
     local self_left = self.hitBoxX - self.radio
     local self_right = self.hitBoxX + self.radio
     local self_top = self.hitBoxY - self.radio
@@ -225,11 +232,9 @@ function Enemy:checkCollision(obj,dt)
     print(self_left, self_right)
 
     local obj_left = obj.hitBoxX[1]
-    local obj_right = obj.hitBoxX[1] + obj.hitBoxX[2]
+    local obj_right = obj.hitBoxX[2]
     local obj_top = obj.hitBoxY[1]
-    local obj_bottom = obj.hitBoxY[1] + obj.hitBoxY[2]
-
-    print(obj_left,obj_right)
+    local obj_bottom = obj.hitBoxY[2]
 
     if  self_right > obj_left
     and self_left < obj_right
