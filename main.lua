@@ -15,8 +15,8 @@ function love.load()
     --Carregar Enemies
     myEnemies = {}
     local i = 1
-
-    while i <= 7 do
+    local numberOfEnemies = 1
+    while i <= numberOfEnemies do
         myEnemies[i] = Enemy:new("0" .. i)
         i = i + 1
     end
@@ -29,7 +29,7 @@ function love.update(dt)
    
     --Enemies Updates
     local i = 1
-    while i <= 7 do
+    while i <= #myEnemies do
         myEnemies[i]:update(dt)
         myEnemies[i]:checkCollision(myPlayer,dt)
         i = i + 1
@@ -56,7 +56,7 @@ function love.draw()
     -- Desenhar Enemies
     local i = 1
 
-    while i <= 7 do
+    while i <= #myEnemies do
         myEnemies[i]:draw()
         i = i+ 1
     end

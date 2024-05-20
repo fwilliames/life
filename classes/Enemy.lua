@@ -229,7 +229,6 @@ function Enemy:checkCollision(obj,dt)
     local self_right = self.hitBoxX + self.radio
     local self_top = self.hitBoxY - self.radio
     local self_bottom = self.hitBoxY + self.radio
-    print(self_left, self_right)
 
     local obj_left = obj.hitBoxX[1]
     local obj_right = obj.hitBoxX[2]
