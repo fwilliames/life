@@ -60,7 +60,7 @@ function Player:initialize()
     }
 
     self.images = self.idleImagesRight --conjunto de imagens usadas atualmente
-    self.x = 100
+    self.x = -185
     self.y = 500
     self.vy = 0
     self.isJumping = false 
@@ -79,7 +79,9 @@ function Player:draw()
     local imagem = self.images[math.min(self.currentFrame, #self.images)]
 
     -- Desenhar o quadro atual do personagem
+    love.graphics.rectangle("fill", self.x + 200, self.y + 225, 105, 200)
     love.graphics.draw(imagem, self.x, self.y)
+    
 end
 
 function Player:update(dt)
