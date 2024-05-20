@@ -5,85 +5,112 @@ local Player = class("player")
 
 function Player:initialize()
     --Imagens de estado ocioso quando o player estiver olhando para direita
-    self.idleImagesRight = {
-        love.graphics.newImage("/assets/character/character_idle_0_r.png"),
-        love.graphics.newImage("/assets/character/character_idle_1_r.png"),
-        love.graphics.newImage("/assets/character/character_idle_2_r.png"),
-        love.graphics.newImage("/assets/character/character_idle_3_r.png")
-    }
+    self.idleImagesRight = {}
+    local i = 0
+    while i <= 3 do
+        self.idleImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_r.png")
+        i = i + 1
+    end
+
     --Imagens de estado ocioso quando o player estiver olhando para esquerda
-    self.idleImagesLeft = {
-        love.graphics.newImage("/assets/character/character_idle_0_l.png"),
-        love.graphics.newImage("/assets/character/character_idle_1_l.png"),
-        love.graphics.newImage("/assets/character/character_idle_2_l.png"),
-        love.graphics.newImage("/assets/character/character_idle_3_l.png")
-    }
+    self.idleImagesLeft = {}
+    i = 0
+    while i <= 3 do
+        self.idleImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_l.png")
+        i = i + 1
+    end
+
     --Imagens de salto quando o player estiver olhando para direita
-    self.jumpImagesRight = {
-        love.graphics.newImage("/assets/character/character_jump_0_r.png"),
-        love.graphics.newImage("/assets/character/character_jump_1_r.png")
-    }
+    self.jumpImagesRight = {}
+    i = 0
+    while i <= 1 do
+       self.jumpImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_r.png")
+       i = i + 1
+    end
+
     --Imagens de salto quando o player estiver olhando para esquerda
-    self.jumpImagesLeft = {
-        love.graphics.newImage("/assets/character/character_jump_0_l.png"),
-        love.graphics.newImage("/assets/character/character_jump_1_l.png")
-    }
+    self.jumpImagesLeft = {}
+    i = 0
+    while i <= 1 do
+       self.jumpImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_l.png")
+       i = i + 1
+    end
+    
     --Imagens de caminhada quando o player estiver olhando para direita
-    self.runImagesRight = {
-        love.graphics.newImage("/assets/character/character_run_0_r.png"),
-        love.graphics.newImage("/assets/character/character_run_1_r.png"),
-        love.graphics.newImage("/assets/character/character_run_2_r.png"),
-        love.graphics.newImage("/assets/character/character_run_3_r.png")
+    self.runImagesRight = {}
+    i = 0
+    while i <= 3 do
+        self.runImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_r.png")
+        i = i + 1
+    end
 
-    }
     --Imagens de caminhada quando o player estiver olhando para esquerda
-    self.runImagesLeft = {
-        love.graphics.newImage("/assets/character/character_run_0_l.png"),
-        love.graphics.newImage("/assets/character/character_run_1_l.png"),
-        love.graphics.newImage("/assets/character/character_run_2_l.png"),
-        love.graphics.newImage("/assets/character/character_run_3_l.png")
+    self.runImagesLeft = {}
+    i = 0
+    while i <= 3 do
+        self.runImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_l.png")
+        i = i + 1
+    end
 
-    }
     --Imagens de ataque quando o player estiver olhando para direita
-    self.attackImagesRight = {
-        love.graphics.newImage("/assets/character/character_sword_Attack_0_r.png"),
-        love.graphics.newImage("/assets/character/character_sword_Attack_1_r.png"),
-        love.graphics.newImage("/assets/character/character_sword_Attack_2_r.png"),
-        love.graphics.newImage("/assets/character/character_sword_Attack_3_r.png"),
-    }
-    --Imagens de ataque quando o player estiver olhando para esquerda
-    self.attackImagesLeft = {
-        love.graphics.newImage("/assets/character/character_sword_Attack_0_l.png"),
-        love.graphics.newImage("/assets/character/character_sword_Attack_1_l.png"),
-        love.graphics.newImage("/assets/character/character_sword_Attack_2_l.png"),
-        love.graphics.newImage("/assets/character/character_sword_Attack_3_l.png"),
-    }
+    self.attackImagesRight = {}
+    i = 0
+    while i <= 3 do
+        self.attackImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_r.png")
+        i = i + 1
+    end
 
+    --Imagens de ataque quando o player estiver olhando para esquerda
+    self.attackImagesLeft = {}
+    i = 0
+    while i <= 3 do
+        self.attackImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_l.png")
+        i = i + 1
+    end
+
+    --conjunto de imagens usadas atualmente
     self.images = self.idleImagesRight --conjunto de imagens usadas atualmente
+    
+    --Posição inicial
     self.x = -185
     self.y = 500
-    self.vy = 0
-    self.isJumping = false 
-    self.isAttacking = false
-    self.isLookingRight = true
+
+    --Hit boxes
+    self.width = {self.x + 200, 105}
+    self.heigh = {(self.y + 225), 200}
+
+    self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
+    self.hitBoxY = {self.heigh[1], self.heigh[1 + self.heigh[2]]}
+
+    --Velocidade de caminhada
     self.speed = 200
+
+    --Salto
+    self.isJumping = false
+    self.vy = 0
+
+    --Ataque
+    self.isAttacking = false
+
+    --Orientação no eixo X
+    self.isLookingRight = true
+
+    --Atributos de animação
     self.currentFrame = 1
     self.timeSinceTheLastChange = 0
     self.frameInterval = 0.1 -- tempo em segundos para trocar de quadro
     self.attackTime = 0 -- Tempo decorrido desde o início do ataque
 
-    self.hitBoxX = {(self.x + 200),105} 
-    self.hitBoxY = {(self.y + 225),200}
-    
 end
 
 function Player:draw()
+    --Desenha o hitbox
+    --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
+
     -- Verificar se o índice do array é válido
     local imagem = self.images[math.min(self.currentFrame, #self.images)]
 
     -- Desenhar o quadro atual do personagem
-    
-    --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2], self.hitBoxY[2])
     love.graphics.draw(imagem, self.x, self.y)
     
 end
@@ -140,7 +167,8 @@ function Player:update(dt)
             end
         end
     end
- 
+    
+    --Verifica se o personagem esta atacando
     if self.isAttacking then
         -- Atualizar o temporizador de animação de ataque
         self.attackTime = self.attackTime + dt
@@ -161,8 +189,12 @@ function Player:update(dt)
             end
         end
     end
-    self.hitBoxX = {(self.x + 200),105} 
-    self.hitBoxY = {(self.y + 225),200}
+
+    --Atualiza os valores dos hitboxes
+    self.width = {self.x + 200, 105}
+    self.heigh = {(self.y + 225), 200}
+    self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
+    self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
 end
 
 function Player:keypressed(key)
