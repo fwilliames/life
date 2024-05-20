@@ -1,43 +1,39 @@
 function love.load()
+    --Requires
+    Player = require("classes/Player")
+    Enemy = require("classes/Enemy")
+
     -- Carregar o mapa
     mapa = love.graphics.newImage("/assets/background/Desert Night_bg.png")
-    
-    love.window.setMode(mapa:getWidth(), mapa:getHeight())
-
-    Player = require("classes/Player")
+   
+    --Configurar Janela
+    love.window.setMode(mapa:getWidth(), mapa:getHeight(), {resizable=true})
+   
+    --Carregar Player
     myPlayer = Player:new()
 
-    Enemy = require("classes/Enemy")
-    --Fireball = 07
-    --DarkFlame = 06
-    myEnemies = {Enemy:new("01"),Enemy:new("02"),Enemy:new("03"),Enemy:new("04"),Enemy:new("05"),Enemy:new("06"),Enemy:new("07")}
+    --Carregar Enemies
+    myEnemies = {}
+    local i = 1
 
-    --myEnemy = Enemy:new("fireball")
-
+    while i <= 7 do
+        myEnemies[i] = Enemy:new("0" .. i)
+        i = i + 1
+    end
+ 
 end
 
 function love.update(dt)
+    --Player Update
     myPlayer:update(dt)
-    myEnemies[1]:update(dt)
-    myEnemies[1]:checkCollision(myPlayer,dt)
-
-    myEnemies[2]:update(dt)
-    myEnemies[2]:checkCollision(myPlayer,dt)
-
-    myEnemies[3]:update(dt)
-    myEnemies[3]:checkCollision(myPlayer,dt)
-
-    myEnemies[4]:update(dt)
-    myEnemies[4]:checkCollision(myPlayer,dt)
-
-    myEnemies[5]:update(dt)
-    myEnemies[5]:checkCollision(myPlayer,dt)
-
-    myEnemies[6]:update(dt)
-    myEnemies[6]:checkCollision(myPlayer,dt)
-
-    myEnemies[7]:update(dt)
-    myEnemies[7]:checkCollision(myPlayer,dt)
+   
+    --Enemies Updates
+    local i = 1
+    while i <= 7 do
+        myEnemies[i]:update(dt)
+        myEnemies[i]:checkCollision(myPlayer,dt)
+        i = i + 1
+    end
     
 end
 
@@ -57,14 +53,13 @@ function love.draw()
     -- Desenhar o player
     myPlayer:draw()
 
-    myEnemies[1]:draw()
-    
-    myEnemies[2]:draw()
-    myEnemies[3]:draw()
-    myEnemies[4]:draw()
-    myEnemies[5]:draw()
-    myEnemies[6]:draw()
-    myEnemies[7]:draw()
+    -- Desenhar Enemies
+    local i = 1
+
+    while i <= 7 do
+        myEnemies[i]:draw()
+        i = i+ 1
+    end
     
 end
   
