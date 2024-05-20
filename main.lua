@@ -19,12 +19,25 @@ end
 function love.update(dt)
     myPlayer:update(dt)
     myEnemies[1]:update(dt)
+    myEnemies[1]:checkCollision(myPlayer,dt)
+
     myEnemies[2]:update(dt)
+    myEnemies[2]:checkCollision(myPlayer,dt)
+
     myEnemies[3]:update(dt)
+    myEnemies[3]:checkCollision(myPlayer,dt)
+
     myEnemies[4]:update(dt)
+    myEnemies[4]:checkCollision(myPlayer,dt)
+
     myEnemies[5]:update(dt)
+    myEnemies[5]:checkCollision(myPlayer,dt)
+
     myEnemies[6]:update(dt)
+    myEnemies[6]:checkCollision(myPlayer,dt)
+
     myEnemies[7]:update(dt)
+    myEnemies[7]:checkCollision(myPlayer,dt)
     
 end
 
@@ -45,6 +58,7 @@ function love.draw()
     myPlayer:draw()
 
     myEnemies[1]:draw()
+    
     myEnemies[2]:draw()
     myEnemies[3]:draw()
     myEnemies[4]:draw()

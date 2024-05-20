@@ -71,6 +71,9 @@ function Player:initialize()
     self.timeSinceTheLastChange = 0
     self.frameInterval = 0.1 -- tempo em segundos para trocar de quadro
     self.attackTime = 0 -- Tempo decorrido desde o início do ataque
+
+    self.hitBoxX = {(self.x + 200),105} 
+    self.hitBoxY = {(self.y + 225),200}
     
 end
 
@@ -79,7 +82,8 @@ function Player:draw()
     local imagem = self.images[math.min(self.currentFrame, #self.images)]
 
     -- Desenhar o quadro atual do personagem
-    love.graphics.rectangle("fill", self.x + 200, self.y + 225, 105, 200)
+    
+    --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2], self.hitBoxY[2])
     love.graphics.draw(imagem, self.x, self.y)
     
 end
@@ -157,6 +161,8 @@ function Player:update(dt)
             end
         end
     end
+    self.hitBoxX = {(self.x + 200),105} 
+    self.hitBoxY = {(self.y + 225),200}
 end
 
 function Player:keypressed(key)
