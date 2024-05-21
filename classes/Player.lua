@@ -232,12 +232,21 @@ function Player:isKeyAPressed(dt)
     self.x = self.x - self.speed * dt
     if not self.isJumping then self.images = self.runImagesLeft end
 end
+function Player:isMouseButton2Pressed(button)
+    if self.isLookingRight then
+        self.images = {self.attackImagesRight[3]}
+    else
+        self.images = {self.attackImagesLeft[3]}
+    end
+end
 
 function Player:isMoving(dt)
     if love.keyboard.isDown("a") then
         self:isKeyAPressed(dt)
     elseif love.keyboard.isDown("d") then
         self:isKeyDPressed(dt)
+    elseif love.mouse.isDown(2) then
+        self:isMouseButton2Pressed(button)
     else
         self:setIdleImages()
     end
