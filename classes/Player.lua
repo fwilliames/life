@@ -5,102 +5,114 @@ local Player = class("player")
 
 function Player:initialize()
     --Imagens de estado ocioso quando o player estiver olhando para direita
-    self.idleImagesRight = {}
-    local i = 0
-    while i <= 3 do
-        self.idleImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_r.png")
-        i = i + 1
-    end
+        self.idleImagesRight = {}
+        local i = 0
+        while i <= 3 do
+            self.idleImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_r.png")
+            i = i + 1
+        end
 
     --Imagens de estado ocioso quando o player estiver olhando para esquerda
-    self.idleImagesLeft = {}
-    i = 0
-    while i <= 3 do
-        self.idleImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_l.png")
-        i = i + 1
-    end
+        self.idleImagesLeft = {}
+        i = 0
+        while i <= 3 do
+            self.idleImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_l.png")
+            i = i + 1
+        end
 
     --Imagens de salto quando o player estiver olhando para direita
-    self.jumpImagesRight = {}
-    i = 0
-    while i <= 1 do
-       self.jumpImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_r.png")
-       i = i + 1
-    end
+        self.jumpImagesRight = {}
+        i = 0
+        while i <= 1 do
+        self.jumpImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_r.png")
+        i = i + 1
+        end
 
     --Imagens de salto quando o player estiver olhando para esquerda
-    self.jumpImagesLeft = {}
-    i = 0
-    while i <= 1 do
-       self.jumpImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_l.png")
-       i = i + 1
-    end
+        self.jumpImagesLeft = {}
+        i = 0
+        while i <= 1 do
+        self.jumpImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_l.png")
+        i = i + 1
+        end
     
     --Imagens de caminhada quando o player estiver olhando para direita
-    self.runImagesRight = {}
-    i = 0
-    while i <= 3 do
-        self.runImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_r.png")
-        i = i + 1
-    end
+        self.runImagesRight = {}
+        i = 0
+        while i <= 3 do
+            self.runImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_r.png")
+            i = i + 1
+        end
 
     --Imagens de caminhada quando o player estiver olhando para esquerda
-    self.runImagesLeft = {}
-    i = 0
-    while i <= 3 do
-        self.runImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_l.png")
-        i = i + 1
-    end
+        self.runImagesLeft = {}
+        i = 0
+        while i <= 3 do
+            self.runImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_l.png")
+            i = i + 1
+        end
 
     --Imagens de ataque quando o player estiver olhando para direita
-    self.attackImagesRight = {}
-    i = 0
-    while i <= 3 do
-        self.attackImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_r.png")
-        i = i + 1
-    end
+        self.attackImagesRight = {}
+        i = 0
+        while i <= 3 do
+            self.attackImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_r.png")
+            i = i + 1
+        end
 
     --Imagens de ataque quando o player estiver olhando para esquerda
-    self.attackImagesLeft = {}
-    i = 0
-    while i <= 3 do
-        self.attackImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_l.png")
-        i = i + 1
-    end
+        self.attackImagesLeft = {}
+        i = 0
+        while i <= 3 do
+            self.attackImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_l.png")
+            i = i + 1
+        end
+
+    --Imagens quando personagem abatido
+        self.deathImages = {}
+        i = 0
+        while i <= 2 do
+            self.deathImages[i + 1] = love.graphics.newImage("/assets/character/character_death_" .. i .. ".png")
+            i = i + 1
+        end
 
     --conjunto de imagens usadas atualmente
-    self.images = self.idleImagesRight --conjunto de imagens usadas atualmente
+        self.images = self.idleImagesRight --conjunto de imagens usadas atualmente
     
     --Posição inicial
-    self.x = -185
-    self.y = 500
+        self.x = -185
+        self.y = 500
 
     --Hit boxes
-    self.width = {self.x + 200, 105}
-    self.heigh = {(self.y + 225), 200}
+        self.width = {self.x + 200, 105}
+        self.heigh = {(self.y + 225), 200}
 
-    self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
-    self.hitBoxY = {self.heigh[1], self.heigh[1 + self.heigh[2]]}
+        self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
+        self.hitBoxY = {self.heigh[1], self.heigh[1 + self.heigh[2]]}
 
     --Velocidade de caminhada
-    self.speed = 200
+        self.speed = 200
 
     --Salto
-    self.isJumping = false
-    self.vy = 0
+        self.isJumping = false
+        self.vy = 0
 
     --Ataque
-    self.isAttacking = false
+        self.isAttacking = false
+
+    --Personagem abatido
+        self.isDeath = false
 
     --Orientação no eixo X
-    self.isLookingRight = true
+        self.isLookingRight = true
 
     --Atributos de animação
-    self.currentFrame = 1
-    self.timeSinceTheLastChange = 0
-    self.frameInterval = 0.1 -- tempo em segundos para trocar de quadro
-    self.attackTime = 0 -- Tempo decorrido desde o início do ataque
-
+        self.currentFrame = 1
+        self.timeSinceTheLastChange = 0
+        self.frameInterval = 0.1 -- tempo em segundos para trocar de quadro
+        self.attackTime = 0 -- Tempo decorrido desde o início do ataque
+        self.deathTime = 0
+        self.animationEnd = false
 end
 
 function Player:draw()
@@ -116,85 +128,33 @@ function Player:draw()
 end
 
 function Player:update(dt)
-     -- Aplicar a gravidade
-    self.vy = self.vy - 700 * dt
+    if not self.isDeath then
+        -- Aplicar a gravidade
+        self:gravity(dt)
 
-     -- Verificar se o personagem atingiu a altura máxima do pulo
-    if self.y <= 340 then
-        -- Trocar para a segunda imagem do conjunto de imagens de pulo
-        if self.isLookingRight then
-            self.images = { self.jumpImagesRight[2] }
-        else
-            self.images = { self.jumpImagesLeft[2] }
-        end
-    end
- 
-    -- Aplicar o pulo
-    if self.isJumping then
-        self.y = self.y - self.vy * dt
-        if self.y >= 500 then
-            self.y = 500
-            self.vy = 0
-            self.isJumping = false
-        end
-    end
- 
-    -- Atualizar o temporizador e trocar de quadro se necessário
-    self.timeSinceTheLastChange = self.timeSinceTheLastChange + dt
-    if self.timeSinceTheLastChange >= self.frameInterval then
-        self.timeSinceTheLastChange = 0
-        self.currentFrame = self.currentFrame % #self.images + 1
-    end
- 
-     -- Verificar se o personagem está se movendo e trocar a animação
-    if love.keyboard.isDown("a") then
-        self.isLookingRight = false
-        self.x = self.x - self.speed * dt
-    if not self.isJumping then self.images = self.runImagesLeft end
+        -- Verificar se o personagem atingiu a altura máxima do pulo
+        self:isMaxHeigh()
 
-    elseif love.keyboard.isDown("d") then
-       self.isLookingRight = true
-        self.x = self.x + self.speed * dt
-        if not self.isJumping then self.images = self.runImagesRight end
+        --Salto
+        self:jump(dt)
+
+        -- Verificar se o personagem está se movendo e trocar a animação
+        self:isMoving(dt)
+
+        --Verifica se o personagem esta atacando
+        if self.isAttacking then
+            self:setAttackImages(dt)
+        end
+
+        self:updateHitBoxes(dt)
+
+        self:animation(dt)
     else
-        if self.isLookingRight then 
-            if not self.isAttacking and not self.isJumping then
-                self.images = self.idleImagesRight
-            end
-        else
-            if not self.isAttacking and not self.isJumping then
-                self.images = self.idleImagesLeft
-            end
-        end
-    end
-    
-    --Verifica se o personagem esta atacando
-    if self.isAttacking then
-        -- Atualizar o temporizador de animação de ataque
-        self.attackTime = self.attackTime + dt
+        self:updateHitBoxes(dt)
+        self:deathAnimation(dt)
 
-        if self.attackTime >= 10 * self.frameInterval then
-            -- Ajustar o tempo de ataque para evitar que exceda o limite de 10 frames por imagem
-           self.attackTime = self.attackTime - 10 * self.frameInterval
-            -- Trocar para a próxima imagem de ataque
-            self.currentFrame =self.currentFrame % #self.images + 1
-            
-        end
-        if self.currentFrame == 4 then
-            self.isAttacking = false
-            if self.isLookingRight then
-                self.images = self.idleImagesRight -- Voltar para as imagens de idle após o ataque
-            else
-                self.images = self.idleImagesLeft -- Voltar para as imagens de idle após o ataque
-            end
-        end
     end
 
-    --Atualiza os valores dos hitboxes
-    self.width = {self.x + 200, 105}
-    self.heigh = {(self.y + 225), 200}
-    self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
-    self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
 end
 
 function Player:keypressed(key)
@@ -204,10 +164,17 @@ function Player:keypressed(key)
         self.isJumping = true
 
         if self.isLookingRight then
-           self.images = {self.jumpImagesRight[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
+            self.images = {self.jumpImagesRight[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
         else
             self.images = {self.jumpImagesLeft[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
         end
+    end
+
+    if key == "r" then
+        self.isDeath = false
+        self.animationEnd = false
+        self.currentFrame = 1
+        self:setIdleImages()
     end
 end
 
@@ -225,6 +192,127 @@ function Player:mousepressed(x, y, button, istouch, presses)
             self.currentFrame = 1
             self.attackTime = 0 -- Reinicializar o tempo de ataque
         end
+    end
+end
+
+function Player:gravity(dt)
+    self.vy = self.vy - 700 * dt
+end
+
+function Player:isMaxHeigh()
+    if self.y <= (340) then
+        -- Trocar para a segunda imagem do conjunto de imagens de pulo
+        if self.isLookingRight then
+            self.images = { self.jumpImagesRight[2] }
+        else
+            self.images = { self.jumpImagesLeft[2] }
+        end
+    end
+end
+
+function Player:jump(dt)
+    if self.isJumping then
+        self.y = self.y - self.vy * dt
+        if self.y >= 500 then
+            self.y = 500
+            self.vy = 0
+            self.isJumping = false
+        end
+    end
+end
+
+function Player:isKeyDPressed(dt)
+    self.isLookingRight = true
+    self.x = self.x + self.speed * dt
+    if not self.isJumping then self.images = self.runImagesRight end
+end
+
+function Player:isKeyAPressed(dt)
+    self.isLookingRight = false
+    self.x = self.x - self.speed * dt
+    if not self.isJumping then self.images = self.runImagesLeft end
+end
+
+function Player:isMoving(dt)
+    if love.keyboard.isDown("a") then
+        self:isKeyAPressed(dt)
+    elseif love.keyboard.isDown("d") then
+        self:isKeyDPressed(dt)
+    else
+        self:setIdleImages()
+    end
+end
+
+function Player:setIdleImages()
+    if self.isLookingRight then
+        if not self.isAttacking and not self.isJumping then
+            self.images = self.idleImagesRight
+        end
+    else
+        if not self.isAttacking and not self.isJumping then
+            self.images = self.idleImagesLeft
+        end
+    end
+end
+
+function Player:setAttackImages(dt)
+    -- Atualizar o temporizador de animação de ataque
+    self.attackTime = self.attackTime + dt
+
+    if self.attackTime >= 10 * self.frameInterval then
+        -- Ajustar o tempo de ataque para evitar que exceda o limite de 10 frames por imagem
+    self.attackTime = self.attackTime - 10 * self.frameInterval
+        -- Trocar para a próxima imagem de ataque
+        self.currentFrame =self.currentFrame % #self.images + 1
+
+    end
+    if self.currentFrame == 4 then
+        self.isAttacking = false
+        if self.isLookingRight then
+            self.images = self.idleImagesRight -- Voltar para as imagens de idle após o ataque
+        else
+            self.images = self.idleImagesLeft -- Voltar para as imagens de idle após o ataque
+        end
+    end
+end
+
+function Player:animation(dt)
+    self.timeSinceTheLastChange = self.timeSinceTheLastChange + dt
+        if self.timeSinceTheLastChange >= self.frameInterval then
+            self.timeSinceTheLastChange = 0
+            self.currentFrame = self.currentFrame % #self.images + 1
+        end
+end
+
+function Player:updateHitBoxes(dt)
+     --Atualiza os valores dos hitboxes
+     self.width = {self.x + 200, 105}
+     self.heigh = {(self.y + 225), 200}
+     self.hitBoxX = {self.width[1], self.width[1] + self.width[2]}
+     self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
+end
+
+function Player:deathAnimation(dt)
+    if not self.animationEnd then
+        self.images = self.deathImages
+        self.animationEnd= true
+    end
+
+    self.y = 500
+
+    --self:animation(dt)
+    -- Atualizar o temporizador de animação de ataque
+    self.deathTime = self.deathTime + dt
+
+    if self.deathTime >= 10 * self.frameInterval then
+        -- Ajustar o tempo de ataque para evitar que exceda o limite de 10 frames por imagem
+    self.deathTime = self.deathTime - 10 * self.frameInterval
+        -- Trocar para a próxima imagem de ataque
+        self.currentFrame =self.currentFrame % #self.images + 1
+
+    end
+    if self.currentFrame == 3 and self.animationEnd then
+        self.images = {self.deathImages[3]}
     end
 end
 
