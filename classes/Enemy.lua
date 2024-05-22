@@ -243,7 +243,12 @@ function Enemy:checkCollision(obj,dt)
             self.isExploding = true
             self.images = self.explosionImages
             self.explosionTime = self.explosionTime + dt
-            obj.isDeath = true
+
+            if obj.health > 0 then
+                obj.health = obj.health - 10
+            else
+                obj.isDeath = true
+            end
         end
     end
 end
