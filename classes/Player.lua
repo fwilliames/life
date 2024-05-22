@@ -99,12 +99,13 @@ function Player:initialize()
 
     --Ataque
         self.isAttacking = false
+        self.isBloking = false
 
     --Saude
         self.health = 100
         self.maxHealth = 100
     --Energia
-        self.energy = 10
+        self.energy = 100
         self.maxEnergy = 100
 
     --Personagem abatido
@@ -138,6 +139,9 @@ function Player:update(dt)
     if not self.isDeath then
         -- Aplicar a gravidade
         self:gravity(dt)
+        if self.isBloking and not love.mouse.isDown(2) then
+            self.isBloking = false
+        end
 
         -- Verificar se o personagem atingiu a altura máxima do pulo
         self:isMaxHeigh()
@@ -183,6 +187,7 @@ function Player:keypressed(key)
         self.currentFrame = 1
         self:setIdleImages()
         self.health = 100
+        self.energy = 100
     end
 end
 
@@ -242,6 +247,7 @@ function Player:isKeyAPressed(dt)
 end
 
 function Player:isMouseButton2Pressed(button)
+    self.isBloking = true
     if self.isLookingRight then
         self.images = {self.attackImagesRight[3]}
     else
