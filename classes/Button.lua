@@ -59,7 +59,7 @@ function Button:initialize(name)
             self.width = 125
             self.hitBoxX = {self.x + 17, self.x + 140}
             self.hitBoxY = {self.y + 23,self.y + 23 + 45}
-            self.scaleX = 0.15
+            self.scaleX = 0.37
             self.scaleY = 0.28
         end,
         
@@ -83,7 +83,7 @@ function Button:initialize(name)
             self.width = 125
             self.hitBoxX = {self.x + 17, self.x + 140}
             self.hitBoxY = {self.y + 23,self.y + 23 + 45}
-            self.scaleX = 0.15
+            self.scaleX = 0.37
             self.scaleY = 0.28
         end
     }
