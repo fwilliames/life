@@ -2,12 +2,16 @@ function love.load()
     --Requires
     Player = require("classes/Player")
     Enemy = require("classes/Enemy")
+    Gui = require("classes/Gui")
 
     -- Carregar o mapa
     mapa = love.graphics.newImage("/assets/background/Desert Night_bg.png")
    
     --Configurar Janela
     love.window.setMode(mapa:getWidth(), mapa:getHeight(), {resizable=true})
+
+    --Carregar GUI
+    myGui = Gui:new()
    
     --Carregar Player
     myPlayer = Player:new()
@@ -42,6 +46,7 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
+    myGui:mousepressed(x, y, button, istouch, presses)
     myPlayer:mousepressed(x, y, button, istouch, presses)
 
 end
@@ -49,6 +54,9 @@ end
 function love.draw()
     -- Desenhar o mapa
     love.graphics.draw(mapa, 0, 0, 0)
+
+    --Desenhar GUI
+    myGui:draw()
 
     -- Desenhar o player
     myPlayer:draw()
