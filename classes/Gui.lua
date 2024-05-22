@@ -16,7 +16,7 @@ function Gui:initialize()
 end
 
 function Gui:draw()
-    
+
     self.quitButton:draw()
     self.holderBar:draw()
     self.healthBarHurt:draw()
@@ -24,6 +24,12 @@ function Gui:draw()
     self.energyEmpty:draw()
     self.energyFull:draw()
     
+end
+
+function Gui:update(dt, health, maxHealth, energy, maxEnergy)
+    self.healthBarHealthy.scaleX = (health / maxHealth) * 0.37
+    self.energyFull.scaleX = (energy / maxEnergy) * 0.37
+
 end
 
 function Gui:mousepressed(x, y, button, istouch, presses)
