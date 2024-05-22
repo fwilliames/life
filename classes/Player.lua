@@ -232,6 +232,7 @@ function Player:isKeyAPressed(dt)
     self.x = self.x - self.speed * dt
     if not self.isJumping then self.images = self.runImagesLeft end
 end
+
 function Player:isMouseButton2Pressed(button)
     if self.isLookingRight then
         self.images = {self.attackImagesRight[3]}
