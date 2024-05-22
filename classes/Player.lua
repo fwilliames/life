@@ -100,6 +100,13 @@ function Player:initialize()
     --Ataque
         self.isAttacking = false
 
+    --Saude
+        self.health = 100
+        self.maxHealth = 100
+    --Energia
+        self.energy = 10
+        self.maxEnergy = 100
+
     --Personagem abatido
         self.isDeath = false
 
@@ -175,6 +182,7 @@ function Player:keypressed(key)
         self.animationEnd = false
         self.currentFrame = 1
         self:setIdleImages()
+        self.health = 100
     end
 end
 
