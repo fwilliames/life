@@ -245,7 +245,11 @@ function Enemy:checkCollision(obj,dt)
             self.explosionTime = self.explosionTime + dt
 
             if obj.health > 0 then
-                obj.health = obj.health - 10
+                if not obj.isBloking or obj.energy <= 0 then
+                    obj.health = obj.health - 10
+                else
+                    obj.energy = obj.energy - 30
+                end
             else
                 obj.isDeath = true
             end
