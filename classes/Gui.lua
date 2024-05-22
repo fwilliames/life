@@ -28,7 +28,13 @@ end
 
 function Gui:update(dt, health, maxHealth, energy, maxEnergy)
     self.healthBarHealthy.scaleX = (health / maxHealth) * 0.37
-    self.energyFull.scaleX = (energy / maxEnergy) * 0.37
+    local tempEnergy = (energy / maxEnergy) * 0.37
+
+    if tempEnergy >= 0 then
+        self.energyFull.scaleX = (energy / maxEnergy) * 0.37
+    else
+        self.energyFull.scaleX = 0
+    end
 
 end
 
