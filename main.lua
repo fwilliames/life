@@ -30,6 +30,9 @@ end
 function love.update(dt)
     --Player Update
     myPlayer:update(dt)
+
+    --GUI update
+    myGui:update(dt, myPlayer.health, myPlayer.maxHealth, myPlayer.energy, myPlayer.maxEnergy)
    
     --Enemies Updates
     local i = 1
