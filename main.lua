@@ -49,7 +49,7 @@ function love.keypressed(key)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
-    myGui:mousepressed(x, y, button, istouch, presses)
+    myGui:mousepressed(x, y, button, istouch, presses, myPlayer)
     myPlayer:mousepressed(x, y, button, istouch, presses)
 
 end
