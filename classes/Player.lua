@@ -181,14 +181,6 @@ function Player:keypressed(key)
         end
     end
 
-    if key == "r" then
-        self.isDeath = false
-        self.animationEnd = false
-        self.currentFrame = 1
-        self:setIdleImages()
-        self.health = 100
-        self.energy = 100
-    end
 end
 
 function Player:mousepressed(x, y, button, istouch, presses)
