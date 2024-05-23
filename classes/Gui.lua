@@ -56,7 +56,7 @@ function Gui:updateEnergyBar(player)
         return (player.energy / player.maxEnergy) * 0.37
     else
         return 0
-    endgit b
+    end
 end
 
 return Gui
