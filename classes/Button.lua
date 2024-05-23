@@ -6,6 +6,7 @@ function Button:initialize(name)
     Bar:initialize(name)
     self.name = name
     self.func = 0
+    self.isVisible = true
 
     self.case = {
         ["QuitButton"] = function()
@@ -58,10 +59,36 @@ function Button:mousepressed(x, y, button, istouch, presses,player)
     end
 end
 
+function Button:update(player)
+    self.isVisible = player.isDeath
+end
+
 function Button:draw()
-    --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
-    love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
-    --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2], self.hitBoxY[2])
+
+    local case = {
+        ["QuitButton"] = function()
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+            love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+        end,
+
+        ["RestartButton"] = function()
+
+            if self.isVisible then
+                love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+            else
+                love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+                love.graphics.setColor(0, 0, 0, 0.5) -- vermelho com 50% de transparência
+                love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+                love.graphics.setColor(1, 1, 1, 1)
+            end
+        end
+    }
+        if case[self.name] then
+            case[self.name]()
+        else
+
+    end
+
 end
 
 function Button:reset(player)
