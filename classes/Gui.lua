@@ -1,17 +1,17 @@
 local class = require("library/middleclass")
-local Button = require("classes/Button")
+local Bar = require("classes/Bar")
 
 ---@class Gui
 local Gui = class("gui")
 
 function Gui:initialize()
     
-    self.quitButton =       Button:new("QuitText")
-    self.holderBar =        Button:new("HealthEnergyHolder")
-    self.healthBarHurt =    Button:new("HealthBarHurt2")
-    self.healthBarHealthy = Button:new("HealthBarHealthy1")
-    self.energyEmpty =      Button:new("EnergyEmpty2")
-    self.energyFull =       Button:new("EnergyFull1")
+    self.quitButton =       Bar:new("QuitText")
+    self.holderBar =        Bar:new("HealthEnergyHolder")
+    self.healthBarHurt =    Bar:new("HealthBarHurt2")
+    self.healthBarHealthy = Bar:new("HealthBarHealthy1")
+    self.energyEmpty =      Bar:new("EnergyEmpty2")
+    self.energyFull =       Bar:new("EnergyFull1")
 
 end
 

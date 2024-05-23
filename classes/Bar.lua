@@ -1,9 +1,9 @@
 local class = require("library/middleclass")
 
----@class Button
-local Button = class("button")
+---@class Bar
+local Bar = class("button")
 
-function Button:initialize(name)
+function Bar:initialize(name)
 
     self.image = 0
     self.x = 0
@@ -93,8 +93,8 @@ function Button:initialize(name)
     end
 end
 
-function Button:draw()
+function Bar:draw()
     love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
 end
 
-return Button
+return Bar
