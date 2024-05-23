@@ -7,7 +7,8 @@ local Gui = class("gui")
 
 function Gui:initialize()
     
-    self.quitButton =       Button:new("QuitText")
+    self.quitButton =       Button:new("QuitButton")
+    self.resetButton =      Button:new("RestartButton")
     self.holderBar =        Bar:new("HealthEnergyHolder")
     self.healthBarHurt =    Bar:new("HealthBarHurt2")
     self.healthBarHealthy = Bar:new("HealthBarHealthy1")
@@ -19,6 +20,7 @@ end
 function Gui:draw()
 
     self.quitButton:draw()
+    self.resetButton:draw()
     self.holderBar:draw()
     self.healthBarHurt:draw()
     self.healthBarHealthy:draw()
@@ -39,8 +41,13 @@ function Gui:update(dt, health, maxHealth, energy, maxEnergy)
 
 end
 
-function Gui:mousepressed(x, y, button, istouch, presses)
-    self.quitButton:mousepressed(x, y, button, istouch, presses)
+function Gui:mousepressed(x, y, button, istouch, presses, player)
+    if x >= self.quitButton.hitBoxX[1] and x <= self.quitButton.hitBoxX[2] and y >= self.quitButton.hitBoxY[1] and y <= self.quitButton.hitBoxY[2] then
+        self.quitButton:mousepressed(x, y, button, istouch, presses)
+    elseif x >= self.resetButton.hitBoxX[1] and x <= self.resetButton.hitBoxX[2] and y >=self.resetButton.hitBoxY[1] and y <= self.resetButton.hitBoxY[2] then
+        self.resetButton:mousepressed(x, y, button, istouch, presses, player)
+    end
+
 end
 
 return Gui
