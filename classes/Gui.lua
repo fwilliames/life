@@ -29,15 +29,10 @@ function Gui:draw()
     
 end
 
-function Gui:update(dt, health, maxHealth, energy, maxEnergy)
-    self.healthBarHealthy.scaleX = (health / maxHealth) * 0.37
-    local tempEnergy = (energy / maxEnergy) * 0.37
-
-    if tempEnergy >= 0 then
-        self.energyFull.scaleX = (energy / maxEnergy) * 0.37
-    else
-        self.energyFull.scaleX = 0
-    end
+function Gui:update(dt, player)
+    self.resetButton:update(player)
+    self.healthBarHealthy.scaleX = self:updateHealthBar(player)
+    self.energyFull.scaleX = self:updateEnergyBar(player)
 
 end
 
@@ -48,6 +43,20 @@ function Gui:mousepressed(x, y, button, istouch, presses, player)
         self.resetButton:mousepressed(x, y, button, istouch, presses, player)
     end
 
+end
+
+function Gui:updateHealthBar(player)
+    return (player.health / player.maxHealth) * 0.37
+end
+
+function Gui:updateEnergyBar(player)
+    local tempEnergy = (player.energy / player.maxEnergy) * 0.37
+
+    if tempEnergy >= 0 then
+        return (player.energy / player.maxEnergy) * 0.37
+    else
+        return 0
+    endgit b
 end
 
 return Gui
