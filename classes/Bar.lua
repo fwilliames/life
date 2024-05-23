@@ -17,15 +17,6 @@ function Bar:initialize(name)
     self.scaleY = 1
 
     self.case = {
-        ["QuitText"] = function()
-            self.image = love.graphics.newImage("assets/gui/".. name ..".png")
-            self.x = -15
-            self.y = 910
-            self.heigh = 45
-            self.width = 125
-            self.hitBoxX = {self.x + 17, self.x + 140}
-            self.hitBoxY = {self.y + 23,self.y + 23 + 45}
-        end,
 
         ["HealthEnergyHolder"] = function()
             self.image = love.graphics.newImage("assets/gui/".. name ..".png")

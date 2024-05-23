@@ -1,12 +1,13 @@
 local class = require("library/middleclass")
 local Bar = require("classes/Bar")
+local Button = require("classes/Button")
 
 ---@class Gui
 local Gui = class("gui")
 
 function Gui:initialize()
     
-    self.quitButton =       Bar:new("QuitText")
+    self.quitButton =       Button:new("QuitText")
     self.holderBar =        Bar:new("HealthEnergyHolder")
     self.healthBarHurt =    Bar:new("HealthBarHurt2")
     self.healthBarHealthy = Bar:new("HealthBarHealthy1")
@@ -39,12 +40,7 @@ function Gui:update(dt, health, maxHealth, energy, maxEnergy)
 end
 
 function Gui:mousepressed(x, y, button, istouch, presses)
-    if button == 1 then -- botão esquerdo do mouse
-        if x >= self.quitButton.hitBoxX[1] and x <= self.quitButton.hitBoxX[2] and
-            y >= self.quitButton.hitBoxY[1] and y <= self.quitButton.hitBoxY[2] then
-            love.event.quit() -- fechar o jogo
-        end
-    end
+    self.quitButton:mousepressed(x, y, button, istouch, presses)
 end
 
 return Gui
