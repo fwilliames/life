@@ -19,7 +19,7 @@ function love.load()
     --Carregar Enemies
     myEnemies = {}
     local i = 1
-    local numberOfEnemies = 0
+    local numberOfEnemies = 7
     while i <= numberOfEnemies do
         myEnemies[i] = Enemy:new("0" .. i)
         i = i + 1
@@ -39,6 +39,7 @@ function love.update(dt)
     while i <= #myEnemies do
         myEnemies[i]:update(dt)
         myEnemies[i]:checkCollision(myPlayer,dt)
+        myEnemies[i]:checkCollision(myPlayer.oneButtonSpeel,dt)
         i = i + 1
     end
     

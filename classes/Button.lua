@@ -156,7 +156,7 @@ function Button:reset(player)
 end
 
 function Button:oneButton(player)
-    player.qSpell = not player.qSpell
+    player:isKeyOnePressed()
 end
 
 return Button

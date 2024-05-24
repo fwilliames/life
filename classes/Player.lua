@@ -1,4 +1,5 @@
 local class = require("library/middleclass")
+local Spell = require("classes/Spell")
 
 ---@class Player
 local Player = class("player")
@@ -80,7 +81,7 @@ function Player:initialize()
         self.images = self.idleImagesRight --conjunto de imagens usadas atualmente
     
     --Posição inicial
-        self.x = -185
+        self.x = 500
         self.y = 500
 
     --Hit boxes
@@ -122,9 +123,10 @@ function Player:initialize()
         self.deathTime = 0
         self.animationEnd = false
 
-        self.qSpell = true
-        self.qSpellImage = love.graphics.newImage("assets/fx/6/mana_shield.png")
-end
+    --Speels
+    self.oneButtonSpeel = Spell:new("mana_shield",self.x,self.y)
+    self.isPlayer = true
+    end
 
 function Player:draw()
     --Desenha o hitbox
@@ -136,9 +138,7 @@ function Player:draw()
     -- Desenhar o quadro atual do personagem
     love.graphics.draw(imagem, self.x, self.y)
 
-    if self.qSpell then
-        love.graphics.draw(self.qSpellImage, self.width[1] - 90, self.heigh[1] - 50,0,0.5,0.5)
-    end
+    self.oneButtonSpeel:draw()
     
 end
 
@@ -165,7 +165,7 @@ function Player:update(dt)
         end
 
         self:updateHitBoxes(dt)
-
+        self.oneButtonSpeel:update(self.x,self.y)
         self:animation(dt)
     else
         self:updateHitBoxes(dt)
@@ -178,7 +178,7 @@ end
 function Player:keypressed(key)
     if key == "space" and not self.isJumping then
         -- Aplicar a força do pulo
-        self.vy = 500
+        self.vy = 600
         self.isJumping = true
 
         if self.isLookingRight then
@@ -186,6 +186,22 @@ function Player:keypressed(key)
         else
             self.images = {self.jumpImagesLeft[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
         end
+    end
+
+    if key == "1" then 
+        self:isKeyOnePressed()
+    end
+
+    if key == "2" then 
+        self:isKeyTwoPressed()
+    end
+
+    if key == "3" then 
+        self:isKeyThreePressed()
+    end
+
+    if key == "4" then 
+        self:isKeyFourPressed()
     end
 
 end
@@ -243,6 +259,26 @@ function Player:isKeyAPressed(dt)
     self.isLookingRight = false
     self.x = self.x - self.speed * dt
     if not self.isJumping then self.images = self.runImagesLeft end
+end
+
+function Player:isKeyOnePressed()
+    if self.energy >= self.oneButtonSpeel.mana and not self.oneButtonSpeel.useSpell then
+        self.oneButtonSpeel:use()
+        self.energy = self.energy - self.oneButtonSpeel.mana
+    elseif  self.oneButtonSpeel.useSpell then
+        self.oneButtonSpeel:use()
+    end
+
+end
+
+function Player:isKeyTwoPressed()
+    print("Botao 2")
+end
+function Player:isKeyThreePressed()
+    print("Botao 3")
+end
+function Player:isKeyFourPressed()
+    print("Botao 4")
 end
 
 function Player:isMouseButton2Pressed(button)
