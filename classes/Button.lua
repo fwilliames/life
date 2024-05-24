@@ -43,6 +43,7 @@ function Button:initialize(name,x)
             self.scaleX = 1.25
             self.scaleY = 1.25
         end,
+
         ["TwoButton (1)"] = function()
             self.image = love.graphics.newImage("assets/gui/".. name ..".png")
             self.x = x
@@ -55,6 +56,7 @@ function Button:initialize(name,x)
             self.scaleX = 1.25
             self.scaleY = 1.25
         end,
+
         ["ThreeButton (1)"] = function()
             self.image = love.graphics.newImage("assets/gui/".. name ..".png")
             self.x = x
@@ -67,6 +69,7 @@ function Button:initialize(name,x)
             self.scaleX = 1.25
             self.scaleY = 1.25
         end,
+
         ["FourButton (1)"] = function()
             self.image = love.graphics.newImage("assets/gui/".. name ..".png")
             self.x = x
@@ -119,16 +122,19 @@ function Button:draw()
             love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
             --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
         end,
+
         ["TwoButton (1)"] = function()
             --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
             love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
             --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
         end,
+
         ["ThreeButton (1)"] = function()
             --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
             love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
             --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
         end,
+        
         ["FourButton (1)"] = function()
             --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
             love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)

@@ -188,19 +188,19 @@ function Player:keypressed(key)
         end
     end
 
-    if key == "1" then 
+    if key == "1" then
         self:isKeyOnePressed()
     end
 
-    if key == "2" then 
+    if key == "2" then
         self:isKeyTwoPressed()
     end
 
-    if key == "3" then 
+    if key == "3" then
         self:isKeyThreePressed()
     end
 
-    if key == "4" then 
+    if key == "4" then
         self:isKeyFourPressed()
     end
 
