@@ -230,28 +230,56 @@ function Enemy:checkCollision(obj,dt)
     local self_top = self.hitBoxY - self.radio
     local self_bottom = self.hitBoxY + self.radio
 
-    local obj_left = obj.hitBoxX[1]
-    local obj_right = obj.hitBoxX[2]
-    local obj_top = obj.hitBoxY[1]
-    local obj_bottom = obj.hitBoxY[2]
+    local obj_left = 0
+    local obj_right = 0
+    local obj_top = 0
+    local obj_bottom = 0
 
-    if  self_right > obj_left
-    and self_left < obj_right
-    and self_bottom > obj_top
-    and self_top < obj_bottom then
-        if not self.isExploding then
-            self.isExploding = true
-            self.images = self.explosionImages
-            self.explosionTime = self.explosionTime + dt
+    if obj.isPlayer then
+        obj_left = obj.hitBoxX[1]
+        obj_right = obj.hitBoxX[2]
+        obj_top = obj.hitBoxY[1]
+        obj_bottom = obj.hitBoxY[2]
+    else
+        obj_left = obj.hitBoxes[1][1]
+        obj_right = obj.hitBoxes[1][2]
+        obj_top = obj.hitBoxes[2][1]
+        obj_bottom = obj.hitBoxes[2][2]
+        obj_radio = obj.radio
+    end
 
-            if obj.health > 0 then
-                if not obj.isBloking or obj.energy <= 0 then
-                    obj.health = obj.health - 10
+    if obj.isPlayer then
+        if  self_right > obj_left
+        and self_left < obj_right
+        and self_bottom > obj_top
+        and self_top < obj_bottom then
+
+            if not self.isExploding then
+                self.isExploding = true
+                self.images = self.explosionImages
+                self.explosionTime = self.explosionTime + dt
+
+                if obj.health > 0 then
+                    if not obj.isBloking or obj.energy <= 0 then
+                        obj.health = obj.health - 10
+                    else
+                        obj.energy = obj.energy - 30
+                    end
                 else
-                    obj.energy = obj.energy - 30
+                    obj.isDeath = true
                 end
-            else
-                obj.isDeath = true
+            end
+        end
+    else
+        if self_right > obj_left
+        and self_left < obj_right
+        and self_bottom > obj_top
+        and self_top < obj_bottom then
+
+            if not self.isExploding and obj.useSpell then
+                self.isExploding = true
+                self.images = self.explosionImages
+                self.explosionTime = self.explosionTime + dt
             end
         end
     end
