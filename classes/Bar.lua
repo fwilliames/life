@@ -77,6 +77,7 @@ function Bar:initialize(name, x)
             self.scaleX = 0.37
             self.scaleY = 0.28
         end,
+        
         ["ButtonCase"] = function()
             self.image = love.graphics.newImage("assets/gui/".. name ..".png")
             self.x = x
