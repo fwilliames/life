@@ -121,6 +121,9 @@ function Player:initialize()
         self.attackTime = 0 -- Tempo decorrido desde o início do ataque
         self.deathTime = 0
         self.animationEnd = false
+
+        self.qSpell = true
+        self.qSpellImage = love.graphics.newImage("assets/fx/6/mana_shield.png")
 end
 
 function Player:draw()
@@ -132,6 +135,10 @@ function Player:draw()
 
     -- Desenhar o quadro atual do personagem
     love.graphics.draw(imagem, self.x, self.y)
+
+    if self.qSpell then
+        love.graphics.draw(self.qSpellImage, self.width[1] - 90, self.heigh[1] - 50,0,0.5,0.5)
+    end
     
 end
 
