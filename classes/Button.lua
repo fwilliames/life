@@ -2,7 +2,7 @@ local Bar = require("/classes/Bar")
 
 local Button = Bar:subclass("Button")
 
-function Button:initialize(name)
+function Button:initialize(name,x)
     Bar:initialize(name)
     self.name = name
     self.func = 0
@@ -20,7 +20,7 @@ function Button:initialize(name)
             self.func = love.event.quit
         end,
 
-        ["RestartButton"] = function()
+        ["RestartButton"] = function(player)
             self.image = love.graphics.newImage("assets/gui/".. name ..".png")
             self.x = 72
             self.y = 950
@@ -28,8 +28,57 @@ function Button:initialize(name)
             self.width = 77
             self.hitBoxX = {self.x, self. x + self.width}
             self.hitBoxY = {self.y, self.y + self.heigh}
-            self.func = love.event.quit
-        end,   
+            self.func = function(player) self:reset(player) end
+        end,
+
+        ["OneButton (1)"] = function()
+            self.image = love.graphics.newImage("assets/gui/".. name ..".png")
+            self.x = x
+            self.y = 955
+            self.heigh = 30
+            self.width = 30
+            self.hitBoxX = {self.x+1, self. x + self.width + 6}
+            self.hitBoxY = {self.y+1, self.y + self.heigh + 6}
+            self.func = function(player)self:oneButton(player) end
+            self.scaleX = 1.25
+            self.scaleY = 1.25
+        end,
+        ["TwoButton (1)"] = function()
+            self.image = love.graphics.newImage("assets/gui/".. name ..".png")
+            self.x = x
+            self.y = 955
+            self.heigh = 30
+            self.width = 30
+            self.hitBoxX = {self.x+1, self. x + self.width + 6}
+            self.hitBoxY = {self.y+1, self.y + self.heigh + 6}
+            self.func = function() print("botao 2") end
+            self.scaleX = 1.25
+            self.scaleY = 1.25
+        end,
+        ["ThreeButton (1)"] = function()
+            self.image = love.graphics.newImage("assets/gui/".. name ..".png")
+            self.x = x
+            self.y = 955
+            self.heigh = 30
+            self.width = 30
+            self.hitBoxX = {self.x+1, self. x + self.width + 6}
+            self.hitBoxY = {self.y+1, self.y + self.heigh + 6}
+            self.func = function() print("botao 3") end
+            self.scaleX = 1.25
+            self.scaleY = 1.25
+        end,
+        ["FourButton (1)"] = function()
+            self.image = love.graphics.newImage("assets/gui/".. name ..".png")
+            self.x = x
+            self.y = 955
+            self.heigh = 30
+            self.width = 30
+            self.hitBoxX = {self.x+1, self. x + self.width + 6}
+            self.hitBoxY = {self.y+1, self.y + self.heigh + 6}
+            self.func = function() print("botao 4") end
+            self.scaleX = 1.25
+            self.scaleY = 1.25
+        end,
     }
 
     if self.case[name] then
@@ -38,25 +87,7 @@ function Button:initialize(name)
 end
 
 function Button:mousepressed(x, y, button, istouch, presses,player)
-    local case = {
-        ["QuitButton"] = function()
-            print(self.name)
-            self.func() -- fechar o jogo
-        end,
-
-        ["RestartButton"] = function()
-            print(self.name)
-            self:reset(player) -- reset o jogo
-        end
-    }
-
-    if button == 1 then -- botão esquerdo do mouse
-        if case[self.name] then
-            case[self.name]()
-        else
-        end
-
-    end
+    self.func(player)
 end
 
 function Button:update(player)
@@ -81,7 +112,29 @@ function Button:draw()
                 love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
                 love.graphics.setColor(1, 1, 1, 1)
             end
-        end
+        end,
+
+        ["OneButton (1)"] = function()
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+            love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+        end,
+        ["TwoButton (1)"] = function()
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+            love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+        end,
+        ["ThreeButton (1)"] = function()
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+            love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+        end,
+        ["FourButton (1)"] = function()
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+            love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
+        end,
+
     }
         if case[self.name] then
             case[self.name]()
@@ -100,6 +153,10 @@ function Button:reset(player)
         player.health = 100
         player.energy = 100
     end
+end
+
+function Button:oneButton(player)
+    player.qSpell = not player.qSpell
 end
 
 return Button
