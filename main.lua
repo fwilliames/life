@@ -39,7 +39,7 @@ function love.update(dt)
     while i <= #myEnemies do
         myEnemies[i]:update(dt)
         myEnemies[i]:checkCollision(myPlayer,dt)
-        myEnemies[i]:checkCollision(myPlayer.oneButtonSpeel,dt)
+        myEnemies[i]:checkCollision(myPlayer.spells[1],dt)
         i = i + 1
     end
     

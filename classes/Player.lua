@@ -5,80 +5,10 @@ local Spell = require("classes/Spell")
 local Player = class("player")
 
 function Player:initialize()
-    --Imagens de estado ocioso quando o player estiver olhando para direita
-        self.idleImagesRight = {}
-        local i = 0
-        while i <= 3 do
-            self.idleImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_r.png")
-            i = i + 1
-        end
 
-    --Imagens de estado ocioso quando o player estiver olhando para esquerda
-        self.idleImagesLeft = {}
-        i = 0
-        while i <= 3 do
-            self.idleImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_idle_" .. i  .."_l.png")
-            i = i + 1
-        end
-
-    --Imagens de salto quando o player estiver olhando para direita
-        self.jumpImagesRight = {}
-        i = 0
-        while i <= 1 do
-        self.jumpImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_r.png")
-        i = i + 1
-        end
-
-    --Imagens de salto quando o player estiver olhando para esquerda
-        self.jumpImagesLeft = {}
-        i = 0
-        while i <= 1 do
-        self.jumpImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_jump_" .. i  .. "_l.png")
-        i = i + 1
-        end
-    
-    --Imagens de caminhada quando o player estiver olhando para direita
-        self.runImagesRight = {}
-        i = 0
-        while i <= 3 do
-            self.runImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_r.png")
-            i = i + 1
-        end
-
-    --Imagens de caminhada quando o player estiver olhando para esquerda
-        self.runImagesLeft = {}
-        i = 0
-        while i <= 3 do
-            self.runImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_run_" .. i .."_l.png")
-            i = i + 1
-        end
-
-    --Imagens de ataque quando o player estiver olhando para direita
-        self.attackImagesRight = {}
-        i = 0
-        while i <= 3 do
-            self.attackImagesRight[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_r.png")
-            i = i + 1
-        end
-
-    --Imagens de ataque quando o player estiver olhando para esquerda
-        self.attackImagesLeft = {}
-        i = 0
-        while i <= 3 do
-            self.attackImagesLeft[i + 1] = love.graphics.newImage("/assets/character/character_sword_Attack_" .. i .. "_l.png")
-            i = i + 1
-        end
-
-    --Imagens quando personagem abatido
-        self.deathImages = {}
-        i = 0
-        while i <= 2 do
-            self.deathImages[i + 1] = love.graphics.newImage("/assets/character/character_death_" .. i .. ".png")
-            i = i + 1
-        end
-
+    self.loadedImages = self:loadImages()
     --conjunto de imagens usadas atualmente
-        self.images = self.idleImagesRight --conjunto de imagens usadas atualmente
+    self.images = self:setImages("idleImagesRight") --conjunto de imagens usadas atualmente
     
     --Posição inicial
         self.x = 500
@@ -124,9 +54,9 @@ function Player:initialize()
         self.animationEnd = false
 
     --Speels
-    self.oneButtonSpeel = Spell:new("mana_shield",self.x,self.y)
-    self.isPlayer = true
-    end
+        self.spells =self:loadSpells()
+        self.isPlayer = true
+end
 
 function Player:draw()
     --Desenha o hitbox
@@ -134,11 +64,12 @@ function Player:draw()
 
     -- Verificar se o índice do array é válido
     local imagem = self.images[math.min(self.currentFrame, #self.images)]
+    --local imagem = self.images[self.currentFrame]
 
     -- Desenhar o quadro atual do personagem
     love.graphics.draw(imagem, self.x, self.y)
 
-    self.oneButtonSpeel:draw()
+    self:drawSpells()
     
 end
 
@@ -146,6 +77,7 @@ function Player:update(dt)
     if not self.isDeath then
         -- Aplicar a gravidade
         self:gravity(dt)
+
         if self.isBloking and not love.mouse.isDown(2) then
             self.isBloking = false
         end
@@ -165,7 +97,7 @@ function Player:update(dt)
         end
 
         self:updateHitBoxes(dt)
-        self.oneButtonSpeel:update(self.x,self.y)
+        self:updateSpells(self.x,self.y)
         self:animation(dt)
     else
         self:updateHitBoxes(dt)
@@ -182,9 +114,9 @@ function Player:keypressed(key)
         self.isJumping = true
 
         if self.isLookingRight then
-            self.images = {self.jumpImagesRight[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
+            self.images = {self:setImages("jumpImagesRight")[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
         else
-            self.images = {self.jumpImagesLeft[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
+            self.images = {self:setImages("jumpImagesLeft")[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
         end
     end
 
@@ -213,9 +145,9 @@ function Player:mousepressed(x, y, button, istouch, presses)
             self.isAttacking = true
 
             if self.isLookingRight then
-                self.images = self.attackImagesRight
+                self.images = self:setImages("attackImagesRight")
             else
-                self.images = self.attackImagesLeft
+                self.images = self:setImages("attackImagesLeft")
             end
             self.currentFrame = 1
             self.attackTime = 0 -- Reinicializar o tempo de ataque
@@ -231,9 +163,9 @@ function Player:isMaxHeigh()
     if self.y <= (340) then
         -- Trocar para a segunda imagem do conjunto de imagens de pulo
         if self.isLookingRight then
-            self.images = { self.jumpImagesRight[2] }
+            self.images = { self:setImages("jumpImagesRight")[2] }
         else
-            self.images = { self.jumpImagesLeft[2] }
+            self.images = { self:setImages("jumpImagesLeft")[2] }
         end
     end
 end
@@ -252,31 +184,28 @@ end
 function Player:isKeyDPressed(dt)
     self.isLookingRight = true
     self.x = self.x + self.speed * dt
-    if not self.isJumping then self.images = self.runImagesRight end
+    if not self.isJumping then self.images = self:setImages("runImagesRight") end
 end
 
 function Player:isKeyAPressed(dt)
     self.isLookingRight = false
     self.x = self.x - self.speed * dt
-    if not self.isJumping then self.images = self.runImagesLeft end
+    if not self.isJumping then self.images = self:setImages("runImagesLeft") end
 end
 
 function Player:isKeyOnePressed()
-    if self.energy >= self.oneButtonSpeel.mana and not self.oneButtonSpeel.useSpell then
-        self.oneButtonSpeel:use()
-        self.energy = self.energy - self.oneButtonSpeel.mana
-    elseif  self.oneButtonSpeel.useSpell then
-        self.oneButtonSpeel:use()
-    end
+    self:useSpell(self.spells[1])
 
 end
 
 function Player:isKeyTwoPressed()
     print("Botao 2")
 end
+
 function Player:isKeyThreePressed()
     print("Botao 3")
 end
+
 function Player:isKeyFourPressed()
     print("Botao 4")
 end
@@ -284,9 +213,9 @@ end
 function Player:isMouseButton2Pressed(button)
     self.isBloking = true
     if self.isLookingRight then
-        self.images = {self.attackImagesRight[3]}
+        self.images = {self:setImages("attackImagesRight")[3]}
     else
-        self.images = {self.attackImagesLeft[3]}
+        self.images = {self:setImages("attackImagesLeft")[3]}
     end
 end
 
@@ -305,11 +234,11 @@ end
 function Player:setIdleImages()
     if self.isLookingRight then
         if not self.isAttacking and not self.isJumping then
-            self.images = self.idleImagesRight
+            self.images = self:setImages("idleImagesRight")
         end
     else
         if not self.isAttacking and not self.isJumping then
-            self.images = self.idleImagesLeft
+            self.images = self:setImages("idleImagesLeft")
         end
     end
 end
@@ -327,11 +256,7 @@ function Player:setAttackImages(dt)
     end
     if self.currentFrame == 4 then
         self.isAttacking = false
-        if self.isLookingRight then
-            self.images = self.idleImagesRight -- Voltar para as imagens de idle após o ataque
-        else
-            self.images = self.idleImagesLeft -- Voltar para as imagens de idle após o ataque
-        end
+        self:setIdleImages()
     end
 end
 
@@ -345,15 +270,15 @@ end
 
 function Player:updateHitBoxes(dt)
      --Atualiza os valores dos hitboxes
-     self.width = {self.x + 200, 105}
-     self.heigh = {(self.y + 225), 200}
+     self.width =   {self.x + 200, 105}
+     self.heigh =   {(self.y + 225), 200}
      self.hitBoxX = {self.width[1], self.width[1] + self.width[2]}
      self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
 end
 
 function Player:deathAnimation(dt)
     if not self.animationEnd then
-        self.images = self.deathImages
+        self.images = self:setImages("deathImages")
         self.animationEnd= true
     end
 
@@ -371,8 +296,79 @@ function Player:deathAnimation(dt)
 
     end
     if self.currentFrame == 3 and self.animationEnd then
-        self.images = {self.deathImages[3]}
+        self.images = {self:setImages("deathImages")[3]}
     end
+end
+
+function Player:loadImages()
+    local loadedImages = {
+        ["idleImagesRight"] =   {},
+        ["idleImagesLeft"] =    {},
+        ["jumpImagesRight"] =   {},
+        ["jumpImagesLeft"] =    {},
+        ["runImagesRight"] =    {},
+        ["runImagesLeft"] =     {},
+        ["attackImagesRight"] = {},
+        ["attackImagesLeft"] =  {},
+        ["deathImages"] =       {}
+    }
+
+    local function loadImagesIntoTable(imageTable, basePath, count)
+        for i = 1, count do
+            table.insert(imageTable, love.graphics.newImage(basePath .. i .. ".png"))
+        end
+    end
+
+    loadImagesIntoTable(loadedImages["idleImagesRight"],   "/assets/character/12/", 4)
+    loadImagesIntoTable(loadedImages["idleImagesLeft"],    "/assets/character/11/", 4)
+    loadImagesIntoTable(loadedImages["jumpImagesRight"],   "/assets/character/22/", 2)
+    loadImagesIntoTable(loadedImages["jumpImagesLeft"],    "/assets/character/21/", 2)
+    loadImagesIntoTable(loadedImages["runImagesRight"],    "/assets/character/32/", 4)
+    loadImagesIntoTable(loadedImages["runImagesLeft"],     "/assets/character/31/", 4)
+    loadImagesIntoTable(loadedImages["attackImagesRight"], "/assets/character/42/", 4)
+    loadImagesIntoTable(loadedImages["attackImagesLeft"],  "/assets/character/41/", 4)
+    loadImagesIntoTable(loadedImages["deathImages"],       "/assets/character/5/", 3)
+
+    return loadedImages
+end
+
+function Player:setImages(setImages)
+    if self.loadedImages and self.loadedImages[setImages] then
+        return self.loadedImages[setImages]
+    else
+        print("Erro: Conjunto de imagens '" .. tostring(setImages) .. "' não encontrado.")
+        return nil
+    end
+end
+
+function Player:loadSpells()
+    local spell = {}
+    spell[1] = Spell:new("mana_shield",self.x,self.y)
+
+    return spell
+end
+
+function Player:updateSpells(x,y)
+    for i = 1, #self.spells do
+        self.spells[i]:update(self.x,self.y)
+    end
+
+end
+
+function Player:drawSpells()
+    for i = 1, #self.spells do
+        self.spells[i]:draw()
+    end
+end
+
+function Player:useSpell(spell)
+    if self.energy >= spell.mana and not spell.useSpell then
+        spell:use()
+        self.energy = self.energy - spell.mana
+    elseif  spell.useSpell then
+        spell:use()
+    end
+
 end
 
 return Player
