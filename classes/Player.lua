@@ -108,15 +108,18 @@ function Player:update(dt)
 end
 
 function Player:keypressed(key)
-    if key == "space" and not self.isJumping then
-        -- Aplicar a força do pulo
-        self.vy = 600
-        self.isJumping = true
+    --Nao vai pular enquanto estiver bloqueando
+    if self.isBloking ==false then
+        if key == "space" and not self.isJumping then
+            -- Aplicar a força do pulo
+            self.vy = 600
+            self.isJumping = true
 
-        if self.isLookingRight then
-            self.images = {self:setImages("jumpImagesRight")[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
-        else
-            self.images = {self:setImages("jumpImagesLeft")[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
+            if self.isLookingRight then
+                self.images = {self:setImages("jumpImagesRight")[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
+            else
+                self.images = {self:setImages("jumpImagesLeft")[1]} -- Trocar para as imagens de pulo quando o personagem começar a pular
+            end
         end
     end
 
@@ -185,6 +188,7 @@ function Player:isKeyDPressed(dt)
     self.isLookingRight = true
     self.x = self.x + self.speed * dt
     if not self.isJumping then self.images = self:setImages("runImagesRight") end
+    
 end
 
 function Player:isKeyAPressed(dt)
@@ -211,23 +215,29 @@ function Player:isKeyFourPressed()
 end
 
 function Player:isMouseButton2Pressed(button)
-    self.isBloking = true
-    if self.isLookingRight then
-        self.images = {self:setImages("attackImagesRight")[3]}
-    else
-        self.images = {self:setImages("attackImagesLeft")[3]}
+    --Não vai conseguir defender enquanto estiver no ar
+    if self.isJumping ==false then
+        self.isBloking = true
+        if self.isLookingRight then
+            self.images = {self:setImages("attackImagesRight")[3]}
+        else
+            self.images = {self:setImages("attackImagesLeft")[3]}
+        end
     end
 end
 
 function Player:isMoving(dt)
-    if love.keyboard.isDown("a") then
-        self:isKeyAPressed(dt)
-    elseif love.keyboard.isDown("d") then
-        self:isKeyDPressed(dt)
-    elseif love.mouse.isDown(2) then
-        self:isMouseButton2Pressed(button)
-    else
-        self:setIdleImages()
+    --Se estiver defendendo, não irá conseguir andar
+    if self.isBloking ==false then
+        if love.keyboard.isDown("a") then
+            self:isKeyAPressed(dt)
+        elseif love.keyboard.isDown("d") then
+            self:isKeyDPressed(dt)
+        elseif love.mouse.isDown(2) then
+            self:isMouseButton2Pressed(button)
+        else
+            self:setIdleImages()
+        end
     end
 end
 
