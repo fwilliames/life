@@ -54,7 +54,7 @@ function Player:initialize()
         self.animationEnd = false
 
     --Speels
-        self.oneButtonSpeel = Spell:new("mana_shield",self.x,self.y)
+        self.spells =self:loadSpells()
         self.isPlayer = true
 end
 
@@ -69,7 +69,7 @@ function Player:draw()
     -- Desenhar o quadro atual do personagem
     love.graphics.draw(imagem, self.x, self.y)
 
-    self.oneButtonSpeel:draw()
+    self:drawSpells()
     
 end
 
@@ -77,6 +77,7 @@ function Player:update(dt)
     if not self.isDeath then
         -- Aplicar a gravidade
         self:gravity(dt)
+
         if self.isBloking and not love.mouse.isDown(2) then
             self.isBloking = false
         end
@@ -96,7 +97,7 @@ function Player:update(dt)
         end
 
         self:updateHitBoxes(dt)
-        self.oneButtonSpeel:update(self.x,self.y)
+        self:updateSpells(self.x,self.y)
         self:animation(dt)
     else
         self:updateHitBoxes(dt)
@@ -193,21 +194,18 @@ function Player:isKeyAPressed(dt)
 end
 
 function Player:isKeyOnePressed()
-    if self.energy >= self.oneButtonSpeel.mana and not self.oneButtonSpeel.useSpell then
-        self.oneButtonSpeel:use()
-        self.energy = self.energy - self.oneButtonSpeel.mana
-    elseif  self.oneButtonSpeel.useSpell then
-        self.oneButtonSpeel:use()
-    end
+    self:useSpell(self.spells[1])
 
 end
 
 function Player:isKeyTwoPressed()
     print("Botao 2")
 end
+
 function Player:isKeyThreePressed()
     print("Botao 3")
 end
+
 function Player:isKeyFourPressed()
     print("Botao 4")
 end
@@ -272,8 +270,8 @@ end
 
 function Player:updateHitBoxes(dt)
      --Atualiza os valores dos hitboxes
-     self.width = {self.x + 200, 105}
-     self.heigh = {(self.y + 225), 200}
+     self.width =   {self.x + 200, 105}
+     self.heigh =   {(self.y + 225), 200}
      self.hitBoxX = {self.width[1], self.width[1] + self.width[2]}
      self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
 end
@@ -304,15 +302,15 @@ end
 
 function Player:loadImages()
     local loadedImages = {
-        ["idleImagesRight"] = {},
-        ["idleImagesLeft"] = {},
-        ["jumpImagesRight"] = {},
-        ["jumpImagesLeft"] = {},
-        ["runImagesRight"] = {},
-        ["runImagesLeft"] = {},
+        ["idleImagesRight"] =   {},
+        ["idleImagesLeft"] =    {},
+        ["jumpImagesRight"] =   {},
+        ["jumpImagesLeft"] =    {},
+        ["runImagesRight"] =    {},
+        ["runImagesLeft"] =     {},
         ["attackImagesRight"] = {},
-        ["attackImagesLeft"] = {},
-        ["deathImages"] = {}
+        ["attackImagesLeft"] =  {},
+        ["deathImages"] =       {}
     }
 
     local function loadImagesIntoTable(imageTable, basePath, count)
@@ -321,15 +319,15 @@ function Player:loadImages()
         end
     end
 
-    loadImagesIntoTable(loadedImages["idleImagesRight"], "/assets/character/12/", 4)
-    loadImagesIntoTable(loadedImages["idleImagesLeft"], "/assets/character/11/", 4)
-    loadImagesIntoTable(loadedImages["jumpImagesRight"], "/assets/character/22/", 2)
-    loadImagesIntoTable(loadedImages["jumpImagesLeft"], "/assets/character/21/", 2)
-    loadImagesIntoTable(loadedImages["runImagesRight"], "/assets/character/32/", 4)
-    loadImagesIntoTable(loadedImages["runImagesLeft"], "/assets/character/31/", 4)
+    loadImagesIntoTable(loadedImages["idleImagesRight"],   "/assets/character/12/", 4)
+    loadImagesIntoTable(loadedImages["idleImagesLeft"],    "/assets/character/11/", 4)
+    loadImagesIntoTable(loadedImages["jumpImagesRight"],   "/assets/character/22/", 2)
+    loadImagesIntoTable(loadedImages["jumpImagesLeft"],    "/assets/character/21/", 2)
+    loadImagesIntoTable(loadedImages["runImagesRight"],    "/assets/character/32/", 4)
+    loadImagesIntoTable(loadedImages["runImagesLeft"],     "/assets/character/31/", 4)
     loadImagesIntoTable(loadedImages["attackImagesRight"], "/assets/character/42/", 4)
-    loadImagesIntoTable(loadedImages["attackImagesLeft"], "/assets/character/41/", 4)
-    loadImagesIntoTable(loadedImages["deathImages"], "/assets/character/5/", 3)
+    loadImagesIntoTable(loadedImages["attackImagesLeft"],  "/assets/character/41/", 4)
+    loadImagesIntoTable(loadedImages["deathImages"],       "/assets/character/5/", 3)
 
     return loadedImages
 end
@@ -341,6 +339,36 @@ function Player:setImages(setImages)
         print("Erro: Conjunto de imagens '" .. tostring(setImages) .. "' não encontrado.")
         return nil
     end
+end
+
+function Player:loadSpells()
+    local spell = {}
+    spell[1] = Spell:new("mana_shield",self.x,self.y)
+
+    return spell
+end
+
+function Player:updateSpells(x,y)
+    for i = 1, #self.spells do
+        self.spells[i]:update(self.x,self.y)
+    end
+
+end
+
+function Player:drawSpells()
+    for i = 1, #self.spells do
+        self.spells[i]:draw()
+    end
+end
+
+function Player:useSpell(spell)
+    if self.energy >= spell.mana and not spell.useSpell then
+        spell:use()
+        self.energy = self.energy - spell.mana
+    elseif  spell.useSpell then
+        spell:use()
+    end
+
 end
 
 return Player
