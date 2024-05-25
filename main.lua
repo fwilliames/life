@@ -8,7 +8,23 @@ function love.load()
     mapa = love.graphics.newImage("/assets/background/Desert Night_bg.png")
    
     --Configurar Janela
-    love.window.setMode(mapa:getWidth(), mapa:getHeight(), {resizable=true})
+    love.window.setMode(800, 600, {
+        resizable = true,
+        fullscreen = true,
+        vsync = 1,
+        msaa = 4,
+        borderless = false,
+        centered = true,
+        display = 1,
+        minwidth = 400,
+        minheight = 300,
+        highdpi=false
+    })
+
+    local width, height = love.graphics.getDimensions()
+    mapWindowWidth = width/mapa:getWidth()
+    mapWindowHeight = height/mapa:getHeight()
+
 
     --Carregar GUI
     myGui = Gui:new()
@@ -42,6 +58,11 @@ function love.update(dt)
         myEnemies[i]:checkCollision(myPlayer.spells[1],dt)
         i = i + 1
     end
+
+    local width, height = love.graphics.getDimensions()
+    mapWindowWidth = width/mapa:getWidth()
+    mapWindowHeight = height/mapa:getHeight()
+
     
 end
 
@@ -57,7 +78,7 @@ end
 
 function love.draw()
     -- Desenhar o mapa
-    love.graphics.draw(mapa, 0, 0, 0)
+    love.graphics.draw(mapa, 0, 0, 0, mapWindowWidth, mapWindowHeight)
 
     --Desenhar GUI
     myGui:draw()
