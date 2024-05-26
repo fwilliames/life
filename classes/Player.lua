@@ -15,8 +15,8 @@ function Player:initialize()
         self.y = 500
 
     --Hit boxes
-        self.width = {self.x + 200, 105}
-        self.heigh = {(self.y + 225), 200}
+        self.width = {(self.x + 200) * widthCorrectionFactor, 105  * widthCorrectionFactor}
+        self.heigh = {(self.y + 225) * heightCorrectionFactor, 200 * heightCorrectionFactor}
 
         self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
         self.hitBoxY = {self.heigh[1], self.heigh[1 + self.heigh[2]]}
@@ -56,6 +56,7 @@ function Player:initialize()
     --Speels
         self.spells =self:loadSpells()
         self.isPlayer = true
+        self.floor = 500
 end
 
 function Player:draw()
@@ -67,7 +68,7 @@ function Player:draw()
     --local imagem = self.images[self.currentFrame]
 
     -- Desenhar o quadro atual do personagem
-    love.graphics.draw(imagem, self.x, self.y)
+    love.graphics.draw(imagem, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, 0, widthCorrectionFactor, heightCorrectionFactor)
 
     self:drawSpells()
     
@@ -99,6 +100,7 @@ function Player:update(dt)
         self:updateHitBoxes(dt)
         self:updateSpells(self.x,self.y)
         self:animation(dt)
+        --self:updateMapParameters()
     else
         self:updateHitBoxes(dt)
         self:deathAnimation(dt)
@@ -173,8 +175,8 @@ end
 function Player:jump(dt)
     if self.isJumping then
         self.y = self.y - self.vy * dt
-        if self.y >= 500 then
-            self.y = 500
+        if self.y >= self.floor then
+            self.y = self.floor
             self.vy = 0
             self.isJumping = false
         end
@@ -270,8 +272,8 @@ end
 
 function Player:updateHitBoxes(dt)
      --Atualiza os valores dos hitboxes
-     self.width =   {self.x + 200, 105}
-     self.heigh =   {(self.y + 225), 200}
+     self.width =   {(self.x + 200) * widthCorrectionFactor, 105 * widthCorrectionFactor}
+     self.heigh =   {(self.y + 225) * heightCorrectionFactor , 200 * heightCorrectionFactor }
      self.hitBoxX = {self.width[1], self.width[1] + self.width[2]}
      self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
 end
