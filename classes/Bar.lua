@@ -97,7 +97,7 @@ function Bar:initialize(name, x)
 end
 
 function Bar:draw()
-    love.graphics.draw(self.image, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
+    love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
 end
 
 return Bar

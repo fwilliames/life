@@ -51,6 +51,11 @@ end
 
 function Gui:update(dt, player)
     self.resetButton:update(player)
+    self.quitButton:update(player)
+    self.oneButton:update(player)
+    self.twoButton:update(player)
+    self.threeButton:update(player)
+    self.fourButton:update(player)
     self.healthBarHealthy.scaleX = self:updateHealthBar(player)
     self.energyFull.scaleX = self:updateEnergyBar(player)
 
