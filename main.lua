@@ -6,29 +6,18 @@ function love.load()
 
     -- Carregar o mapa
     mapa = love.graphics.newImage("/assets/background/Desert Night_bg.png")
-   
+
     --Configurar Janela
-    love.window.setMode(800, 600, {
-        resizable = true,
-        fullscreen = true,
-        vsync = 1,
-        msaa = 4,
-        borderless = false,
-        centered = true,
-        display = 1,
-        minwidth = 400,
-        minheight = 300,
-        highdpi=false
-    })
+    success = love.window.setFullscreen(true, "desktop")
 
+    --Fatores de correção de escala
     local width, height = love.graphics.getDimensions()
-    mapWindowWidth = width/mapa:getWidth()
-    mapWindowHeight = height/mapa:getHeight()
-
+    widthCorrectionFactor = width/mapa:getWidth()
+    heightCorrectionFactor = height/mapa:getHeight()
 
     --Carregar GUI
     myGui = Gui:new()
-   
+
     --Carregar Player
     myPlayer = Player:new()
 
@@ -40,7 +29,7 @@ function love.load()
         myEnemies[i] = Enemy:new("0" .. i)
         i = i + 1
     end
- 
+
 end
 
 function love.update(dt)
@@ -59,10 +48,10 @@ function love.update(dt)
         i = i + 1
     end
 
-    local width, height = love.graphics.getDimensions()
-    mapWindowWidth = width/mapa:getWidth()
-    mapWindowHeight = height/mapa:getHeight()
-
+    --Atualizar Fatores de escala
+    width, height = love.graphics.getDimensions()
+    widthCorrectionFactor = width/mapa:getWidth()
+    heightCorrectionFactor = height/mapa:getHeight()
     
 end
 
@@ -78,7 +67,7 @@ end
 
 function love.draw()
     -- Desenhar o mapa
-    love.graphics.draw(mapa, 0, 0, 0, mapWindowWidth, mapWindowHeight)
+    love.graphics.draw(mapa, 0, 0, 0, widthCorrectionFactor, heightCorrectionFactor)
 
     --Desenhar GUI
     myGui:draw()
