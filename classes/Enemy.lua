@@ -7,36 +7,12 @@ function Enemy:initialize(typeEnemy)
     --Imagens de estado ocioso quando o Enemy estiver olhando para direita
     self.images = {}
     self.enemyName = typeEnemy
-    local i = 1
-    local j = 30
-
-    self.liveImages = {}
-    self.explosionImages = {}
 
     --Carregar as imagens 
-    while i< j do
-        if i > 10 then
-            self.liveImages[i] =  love.graphics.newImage("/assets/enemies/".. typeEnemy .."/".. typeEnemy .."00".. (i - 1) .. ".png")
-        else
-            self.liveImages[i] =  love.graphics.newImage("/assets/enemies/".. typeEnemy .."/".. typeEnemy.."000".. (i - 1) .. ".png")
-        end
-        i = i + 1
-    end
-
-    --Carregar imagens da explosao
-    i = 1
-    j = 32
-    while i< j do
-        if i > 10 then
-            self.explosionImages[i] =  love.graphics.newImage("/assets/fx/2/200" ..(i - 1) .. ".png")
-        else
-            self.explosionImages[i] =  love.graphics.newImage("/assets/fx/2/2000" ..(i - 1) .. ".png")
-        end
-        i = i + 1
-    end
-
+    self.loadedImages = self:loadImages(typeEnemy)
+    
     --Define o set atual de imagens
-    self.images = self.liveImages
+    self.images = self:setImages("liveImages")
 
     self.x = 0
     self.y = 0
@@ -55,74 +31,7 @@ function Enemy:initialize(typeEnemy)
     self.radio = 0
     
     --Definicao de atributos de acordo com tipo de inimigo criado
-    if typeEnemy == "01" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.x + 130 ) * heightCorrectionFactor
-        self.hitBoxX = (self.y + 65) * widthCorrectionFactor
-        self.radio = 30  * (widthCorrectionFactor/heightCorrectionFactor)
-    end
-
-    if typeEnemy == "02" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-        self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-        self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-    end
-
-    if typeEnemy == "03" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-        self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-        self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-    end
-
-    if typeEnemy == "04" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-        self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-        self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-    end
-
-    if typeEnemy == "05" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-        self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-        self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-    end
-
-    if typeEnemy == "06" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-        self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-        self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-    end
-
-    if typeEnemy == "06" then
-        self.y = -200
-        math.randomseed(os.time())
-        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
-        self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-        self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-        self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-    end
+    self:setup(typeEnemy)
 
     --Atributos de Explosao
     self.explosionTime = 0
@@ -151,82 +60,12 @@ function Enemy:update(dt)
         self.y = -200
         self.x = math.random(0,1600)
         self.speed = self.speed + self.speedIncrement
-        
-        if self.enemyName == "01" then
-            self.hitBoxY = (self.y + 130 ) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-            self.radio = 30  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "02" then
-            self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-            self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "03" then
-            self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-            self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "04" then
-            self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 63) * widthCorrectionFactor
-            self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "05" then
-            self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 63) * widthCorrectionFactor
-            self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "06" then
-            self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-            self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "07" then
-            self.hitBoxY = (self.y + 65) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-            self.radio = 19  * (widthCorrectionFactor/heightCorrectionFactor)
-        end
+        self:updateHitBoxes()
     end
 
     if not self.isExploding then
         self.y = self.y + self.speed * dt
-
-        if self.enemyName == "01" then
-            self.hitBoxY = (self.y + 130 ) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-            self.radio = 30  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "02" then
-            self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-            self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "03" then
-            self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-            self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "04" then
-            self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 63) * widthCorrectionFactor
-            self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "05" then
-            self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 63) * widthCorrectionFactor
-            self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "06" then
-            self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-            self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-        elseif self.enemyName == "07" then
-            self.hitBoxY = (self.y + 65) * heightCorrectionFactor
-            self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-            self.radio = 19  * (widthCorrectionFactor/heightCorrectionFactor)
-        end
+        self:updateHitBoxes()
     end
 
     --Troca de imagens para explosao
@@ -237,46 +76,10 @@ function Enemy:update(dt)
             self.explosionTime = 0
             self.y = -200
             self.x = math.random(0,1600)
-
-            if self.enemyName == "01" then
-                self.hitBoxY = (self.y + 130 ) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-                self.radio = 30  * (widthCorrectionFactor/heightCorrectionFactor)
-
-            elseif self.enemyName == "02" then
-                self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-                self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-            elseif self.enemyName == "03" then
-                self.hitBoxY = (self.y + 180) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 67) * widthCorrectionFactor
-                self.radio = 10  * (widthCorrectionFactor/heightCorrectionFactor)
-
-            elseif self.enemyName == "04" then
-                self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 63) * widthCorrectionFactor
-                self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-            elseif self.enemyName == "05" then
-                self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 63) * widthCorrectionFactor
-                self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-            elseif self.enemyName == "06" then
-                self.hitBoxY = (self.y + 170) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-                self.radio = 20  * (widthCorrectionFactor/heightCorrectionFactor)
-
-            elseif self.enemyName == "07" then
-                self.hitBoxY = (self.y + 65) * heightCorrectionFactor
-                self.hitBoxX = (self.x + 65) * widthCorrectionFactor
-                self.radio = 19  * (widthCorrectionFactor/heightCorrectionFactor)
-            end
-
-        self.speed = self.speed + self.speedIncrement
-        self.images = self.liveImages
-        self.isExploding = false
+            self:updateHitBoxes()
+            self.speed = self.speed + self.speedIncrement
+            self.images = self:setImages("liveImages")
+            self.isExploding = false
                
         end
         self.explosionTime = self.explosionTime + dt
@@ -324,7 +127,7 @@ function Enemy:checkCollision(obj,dt)
 
             if not self.isExploding then
                 self.isExploding = true
-                self.images = self.explosionImages
+                self.images = self:setImages("explosionImages")
                 self.explosionTime = self.explosionTime + dt
 
                 if obj.health > 0 then
@@ -346,10 +149,152 @@ function Enemy:checkCollision(obj,dt)
 
             if not self.isExploding and obj.useSpell then
                 self.isExploding = true
-                self.images = self.explosionImages
+                self.images = self:setImages("explosionImages")
                 self.explosionTime = self.explosionTime + dt
             end
         end
+    end
+end
+
+function Enemy:loadImages(typeEnemy)
+    local loadedImages = {
+        ["liveImages"]      = {},
+        ["explosionImages"] = {}
+    }
+
+    local function loadImagesIntoTable(imageTable, basePath, count, begin)
+        for i = begin, count do
+            table.insert(imageTable, love.graphics.newImage(basePath .. i - 1 .. ".png"))
+        end
+    end
+
+    loadImagesIntoTable(loadedImages["liveImages"],         "assets/enemies/" ..typeEnemy .."/" .. typeEnemy .."000", 10, 1)
+    loadImagesIntoTable(loadedImages["liveImages"],         "assets/enemies/" ..typeEnemy .."/" .. typeEnemy .."00", 21, 11)
+    loadImagesIntoTable(loadedImages["explosionImages"],    "assets/fx/2/2000", 10, 1)
+    loadImagesIntoTable(loadedImages["explosionImages"],      "assets/fx/2/200", 23, 11)
+
+    return loadedImages
+end
+
+function Enemy:setImages(setImages)
+    if self.loadedImages and self.loadedImages[setImages] then
+        return self.loadedImages[setImages]
+    else
+        print("Erro: Conjunto de imagens '" .. tostring(setImages) .. "' não encontrado.")
+        return nil
+    end
+end
+
+function Enemy:setHitBoxes(x, y, xMax, yMax, radioMax)
+    local hitBoxY = (self.y + yMax) * heightCorrectionFactor
+    local hitBoxX = (self.x + xMax) * widthCorrectionFactor
+    local radio = radioMax  * (widthCorrectionFactor/heightCorrectionFactor)
+    
+    return hitBoxY, hitBoxX, radio
+
+end
+
+function Enemy:updateHitBoxes()
+
+    if self.enemyName == "01" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    elseif self.enemyName == "02" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    elseif self.enemyName == "03" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    elseif self.enemyName == "04" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    elseif self.enemyName == "05" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    elseif self.enemyName == "06" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    elseif self.enemyName == "07" then
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    end
+
+end
+
+function Enemy:setup(typeEnemy)
+    if typeEnemy == "01" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 65
+        self.yMax = 130
+        self.radioMax = 30
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+    end
+
+    if typeEnemy == "02" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 67
+        self.yMax = 180
+        self.radioMax = 10
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    end
+
+    if typeEnemy == "03" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 67
+        self.yMax = 180
+        self.radioMax = 10
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+    end
+
+    if typeEnemy == "04" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 63
+        self.yMax = 165
+        self.radioMax = 25
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    end
+
+    if typeEnemy == "05" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 63
+        self.yMax = 165
+        self.radioMax = 25
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    end
+
+    if typeEnemy == "06" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 72
+        self.yMax = 165
+        self.radioMax = 25
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
+    end
+
+    if typeEnemy == "07" then
+        self.y = -200
+        math.randomseed(os.time())
+        self.x = math.random(35,800) -- limite superior 800 limite inferior 35
+        self.xMax = 63
+        self.yMax = 65
+        self.radioMax = 25
+        self.hitBoxY, self.hitBoxX, self.radio = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax, self.radioMax)
+
     end
 end
 
