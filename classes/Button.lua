@@ -89,92 +89,34 @@ function Button:mousepressed(x, y, button, istouch, presses,player)
 end
 
 function Button:update(player)
-    self.isVisible = player.isDeath
 
-    if self.name == "QuitButton" then
-        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
+    if self.name == "RestartButton" then self.isVisible = player.isDeath end
 
-    elseif self.name == "RestartButton" then
-        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
+    self:updateHitBoxes()
 
-    elseif self.name == "OneButton (1)" then
-        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
-
-    elseif self.name == "TwoButton (1)" then
-        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
-
-    elseif self.name == "ThreeButton (1)" then
-        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
-
-    elseif self.name == "FourButton (1)" then
-        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
-    end
 end
 
 function Button:draw()
 
-    local case = {
-        ["QuitButton"] = function()
-            love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-            --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-        end,
+    if self.isVisible then
+        --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
+        love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
+        --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
 
-        ["RestartButton"] = function()
-
-            if self.isVisible then
-                --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-                love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-            else
-                love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-                love.graphics.setColor(0, 0, 0, 0.5) -- vermelho com 50% de transparência
-                love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-                love.graphics.setColor(1, 1, 1, 1)
-                --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-
-            end
-        end,
-
-        ["OneButton (1)"] = function()
-            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
-            love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-            --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-        end,
-
-        ["TwoButton (1)"] = function()
-            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
-            love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-            --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-        end,
-
-        ["ThreeButton (1)"] = function()
-            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
-            love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-            --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-        end,
-        
-        ["FourButton (1)"] = function()
-            --love.graphics.rectangle("fill", self.hitBoxX[1], self.hitBoxY[1], self.hitBoxX[2] - self.x, self.hitBoxY[2] - self.y)
-            love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
-            --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
-        end,
-
-    }
-        if case[self.name] then
-            case[self.name]()
-        else
+    else
+        love.graphics.draw(self.image, self.x * widthCorrectionFactor, self.y * heightCorrectionFactor, self.rotation, self.scaleX * widthCorrectionFactor, self.scaleY * heightCorrectionFactor)
+        love.graphics.setColor(0, 0, 0, 0.5) -- vermelho com 50% de transparência
+        love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
+        love.graphics.setColor(1, 1, 1, 1)
+        --love.graphics.rectangle("fill", self.width[1], self.heigh[1], self.width[2], self.heigh[2])
 
     end
-
+       
 end
 
 function Button:reset(player)
     if player.isDeath then
-        player.isDeath = false
-        player.animationEnd = false
-        player.currentFrame = 1
-        player:setIdleImages()
-        player.health = 100
-        player.energy = 100
+        self:resetPlayer(player)
     end
 end
 
@@ -190,6 +132,21 @@ function Button:setHitBoxes(x, y, xMax, yMax)
     local hitBoxY = {heigh[1], heigh[1] + heigh[2]}
 
     return heigh, width, hitBoxX, hitBoxY
+end
+
+function Button:updateHitBoxes()
+    self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMax, self.yMax)
+
+end
+
+function Button:resetPlayer(player)
+    player.isDeath = false
+    player.animationEnd = false
+    player.currentFrame = 1
+    player:setIdleImages()
+    player.health = 100
+    player.energy = 100
+
 end
 
 return Button

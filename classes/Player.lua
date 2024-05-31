@@ -7,19 +7,20 @@ local Player = class("player")
 function Player:initialize()
 
     self.loadedImages = self:loadImages()
+
     --conjunto de imagens usadas atualmente
     self.images = self:setImages("idleImagesRight") --conjunto de imagens usadas atualmente
     
     --Posição inicial
         self.x = 500
+        self.xMin = 200
+        self.xMax = 105
         self.y = 500
+        self.yMin = 225
+        self.yMax = 200
 
     --Hit boxes
-        self.width = {(self.x + 200) * widthCorrectionFactor, 105  * widthCorrectionFactor}
-        self.heigh = {(self.y + 225) * heightCorrectionFactor, 200 * heightCorrectionFactor}
-
-        self.hitBoxX = {self.width[1], self.width[1] + self.width[2]} 
-        self.hitBoxY = {self.heigh[1], self.heigh[1 + self.heigh[2]]}
+        self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMin, self.xMax, self.yMin, self.yMax)
 
     --Velocidade de caminhada
         self.speed = 200
@@ -274,18 +275,10 @@ end
 
 function Player:animation(dt)
     self.timeSinceTheLastChange = self.timeSinceTheLastChange + dt
-        if self.timeSinceTheLastChange >= self.frameInterval then
-            self.timeSinceTheLastChange = 0
-            self.currentFrame = self.currentFrame % #self.images + 1
-        end
-end
-
-function Player:updateHitBoxes(dt)
-     --Atualiza os valores dos hitboxes
-     self.width =   {(self.x + 200) * widthCorrectionFactor, 105 * widthCorrectionFactor}
-     self.heigh =   {(self.y + 225) * heightCorrectionFactor , 200 * heightCorrectionFactor }
-     self.hitBoxX = {self.width[1], self.width[1] + self.width[2]}
-     self.hitBoxY = {self.heigh[1], self.heigh[1] + self.heigh[2]}
+    if self.timeSinceTheLastChange >= self.frameInterval then
+        self.timeSinceTheLastChange = 0
+        self.currentFrame = self.currentFrame % #self.images + 1
+    end
 end
 
 function Player:deathAnimation(dt)
@@ -380,6 +373,21 @@ function Player:useSpell(spell)
     elseif  spell.useSpell then
         spell:use()
     end
+
+end
+
+function Player:setHitBoxes(x, y, xMin, xMax, yMin, yMax)
+
+    local width = {(x + xMin) * widthCorrectionFactor, xMax  * widthCorrectionFactor}
+    local heigh = {(y + yMin) * heightCorrectionFactor, yMax * heightCorrectionFactor}
+    local hitBoxX = {width[1], width[1] + width[2]}
+    local hitBoxY = {heigh[1], heigh[1] + heigh[2]}
+
+    return heigh, width, hitBoxX, hitBoxY
+end
+
+function Player:updateHitBoxes()
+    self.heigh, self.width, self.hitBoxX, self.hitBoxY = self:setHitBoxes(self.x, self.y, self.xMin, self.xMax, self.yMin, self.yMax)
 
 end
 
