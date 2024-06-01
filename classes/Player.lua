@@ -99,7 +99,7 @@ function Player:update(dt)
         end
 
         self:updateHitBoxes(dt)
-        self:updateSpells(self.x,self.y)
+        self:updateSpells(self.x, self.y, dt)
         self:animation(dt)
         --self:updateMapParameters()
     else
@@ -353,9 +353,9 @@ function Player:loadSpells()
     return spell
 end
 
-function Player:updateSpells(x,y)
+function Player:updateSpells(x, y, dt)
     for i = 1, #self.spells do
-        self.spells[i]:update(self.x,self.y)
+        self.spells[i]:update(self.x, self.y, dt)
     end
 
 end
@@ -367,11 +367,9 @@ function Player:drawSpells()
 end
 
 function Player:useSpell(spell)
-    if self.energy >= spell.mana and not spell.useSpell then
+    if self.energy >= spell.mana and not spell.useSpell and not spell.isInCD then
         spell:use()
         self.energy = self.energy - spell.mana
-    elseif  spell.useSpell then
-        spell:use()
     end
 
 end

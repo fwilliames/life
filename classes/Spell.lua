@@ -12,6 +12,10 @@ function Spell:initialize(name,x,y)
     self.hitBoxes = {{ (self.x + 15) * widthCorrectionFactor, (self.x + 2 * self.radio) * widthCorrectionFactor}, {(self.y + 15) * heightCorrectionFactor, (self.y + self.radio * 2) * heightCorrectionFactor}}
     self.isPlayer = false
     self.mana = 10
+    self.spellDuration = 5
+    self.countDown = 20
+    self.isInCD = false
+
 end                      
 
 function Spell:draw()                        
@@ -22,16 +26,32 @@ function Spell:draw()
     end
 end
 
-function Spell:update(x,y)
+function Spell:update(x, y, dt)
     self.x = x + 60
     self.y = y + 130
     self.hitBoxes = {{ (self.x + 15) * widthCorrectionFactor, (self.x + 2 * self.radio) * widthCorrectionFactor}, {(self.y + 15) * heightCorrectionFactor, (self.y + self.radio * 2) * heightCorrectionFactor}}
 
+    if self.useSpell and self.spellDuration >= 0 then self.spellDuration = self.spellDuration - dt end
+    if self.countDown >= 0 and self.isInCD then self.countDown = self.countDown - dt end
+
+    if self.spellDuration < 0 then
+        self.useSpell = false
+        self.spellDuration = 5
+        self.isInCD = true
+    end
+
+    if self.countDown < 0 then
+        self.isInCD = false
+        self.countDown = 20
+    end
 
 end
 
 function Spell:use()
-    self.useSpell = not self.useSpell
+    if not self.isInCD then
+        self.useSpell = not self.useSpell
+        self.isInCD = true
+    end
 end
 
 return Spell

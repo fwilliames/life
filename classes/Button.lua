@@ -91,6 +91,7 @@ end
 function Button:update(player)
 
     if self.name == "RestartButton" then self.isVisible = player.isDeath end
+    if self.name == "OneButton (1)" then self.isVisible = not player.spells[1].isInCD end
 
     self:updateHitBoxes()
 
